@@ -3,8 +3,9 @@ package com.example.SuperSchedule.entity;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Fts4;
 import androidx.room.PrimaryKey;
-
+@Fts4
 @Entity
 public class Customer {
     @PrimaryKey(autoGenerate = true)
