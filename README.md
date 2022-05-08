@@ -11,6 +11,77 @@
  因为网络功能都得连到google，所以要用这些功能都必须要翻墙才行。
 如果用的代理的话，android 虚拟机和主机是在同一个局域网里的，在Android模拟器里面，搜setting->Network&internet->internet->长按 android Wifi(未连接状态)->modify 里面设置代理就行了。ip填主机的局域网ip，端口填代理端口就行
  
+ 
+# 数据
+
+## 数据模型
+
+1. Event （日程）
+    public int uid; //自动生成的uid
+    public String eventName;  //日程名
+    
+    public int year;  //日程发生的年,月,日,时，分
+    public int month;
+    public int day;
+    public int hour;
+    public int minute;
+    
+    public int ownerCalendar; //每个Event从属于某一Calendar，ownerCalendar记录此 Calendar的uid
+    public Boolean enableAlarm; //该Calendar是否需要提醒（该功能可以砍）
+
+    public String location;  //记录该日程发生的地点（可以与Map screen 集成，也可以砍了）
+
+2. Calendar（日程表）（为简化设计，群组将与Calendar一一对应，Calendar兼任群组的功能）
+    public int uid; //自动生成的uid
+    public String calendarName;  //Calendar的名称
+    public String ownerUser;  //每个Calendar有一个Owner用户，该项目记录其uid
+    
+    public Boolean isShared; //用于记录该Calendar是否为共享日程表
+
+
+3. User（用户信息）
+       public String uid; //Firebase Auth为用户分配固定的uid
+       public String name;  //用户名
+       public String password; //密码
+       public String email; //邮箱
+       public String phone;  //手机号
+       
+       FirebaseAuth
+       .getInstance()
+       .getCurrentUser()
+       {.getEmail()|
+        .getPhotoUrl()|//头像，暂未实现
+        .getDisplayName()|
+        .getUid()|
+        .getPhoneNumber()|
+        .}
+
+4. CalendarMember （记录User与Calendar的对应关系）（存储Calendar的成员名单/某成员的所属Calendar表）
+       public int calendarUid; // Calendar uid
+       public String userUid; // 成员的 uid
+       public int userAuthLv;  //该 Calendar中该成员的权限等级
+                               //0->viewer
+                               //1->editor
+                               //2->owner
+
+
+## 存储方案
+由于项目要求使用room为recycleview提供数据(Livedata)，但事实上Firebase cloud database也具备本地数据缓存的功能。
+因此仅当Calendar为非共享表的时候，使用ROOM存储相关数据。同时使用Workmanager，定时将其推送到云端（反之则不自动将其下载到本地/或者设置一个按钮，直接用云端数据覆盖本地数据,以避免同步数据的麻烦）
+在Room中可以考虑仅存储Calendar，Event。 过滤时仅需要将当前用户的uid与Calendaruid比对
+同时为满足使用Workmanager的要求，定时将ROOM中数据推送到云端（反之则不自动将其下载到本地/或者设置一个按钮，直接用云端数据覆盖本地数据,以避免同步数据的麻烦）
+
+提供的数据类型与ROOM一致，Livedata/CompletableFuture
+
+True-> 仅通过Firebase Cloud database存储
+False->存储在本地的ROOM数据库，在特定时间通过Workmanager 存储于Clouddatabase
+（对应Android RecyclerView with CardView to display data from the Room dbs (using LiveData)的要求）
+
+## Cloud database 存储模型
+
+
+
+
 # Task Allocation
 
 ## Zixuan Huang
