@@ -40,10 +40,15 @@
 
 
 3. User（用户信息）
+       
        public String uid; //Firebase Auth为用户分配固定的uid
+       
        public String name;  //用户名
+       
        public String password; //密码
+       
        public String email; //邮箱
+       
        public String phone;  //手机号
        
        FirebaseAuth
@@ -57,28 +62,106 @@
         .}
 
 4. CalendarMember （记录User与Calendar的对应关系）（存储Calendar的成员名单/某成员的所属Calendar表）
+       
        public int calendarUid; // Calendar uid
+       
        public String userUid; // 成员的 uid
+       
        public int userAuthLv;  //该 Calendar中该成员的权限等级
+
                                //0->viewer
+
                                //1->editor
+
                                //2->owner
 
 
 ## 存储方案
-由于项目要求使用room为recycleview提供数据(Livedata)，但事实上Firebase cloud database也具备本地数据缓存的功能。
+由于项目要求使用room为recycleview提供数据(Livedata)，但事实上Firebase realtime database也具备本地数据缓存的功能。
+
 因此仅当Calendar为非共享表的时候，使用ROOM存储相关数据。同时使用Workmanager，定时将其推送到云端（反之则不自动将其下载到本地/或者设置一个按钮，直接用云端数据覆盖本地数据,以避免同步数据的麻烦）
+
 在Room中可以考虑仅存储Calendar，Event。 过滤时仅需要将当前用户的uid与Calendaruid比对
+
 同时为满足使用Workmanager的要求，定时将ROOM中数据推送到云端（反之则不自动将其下载到本地/或者设置一个按钮，直接用云端数据覆盖本地数据,以避免同步数据的麻烦）
 
-提供的数据类型与ROOM一致，Livedata/CompletableFuture
+提供的数据类型与ROOM一致，Livedata/CompletableFuture。 
 
-True-> 仅通过Firebase Cloud database存储
-False->存储在本地的ROOM数据库，在特定时间通过Workmanager 存储于Clouddatabase
+True-> 仅通过Firebase Cloud database存储/仅读取来自于Cloud database的数据
+
+False->写入在本地的ROOM数据库，在特定时间通过Workmanager 存储于Clouddatabase/从ROOM中读取
 （对应Android RecyclerView with CardView to display data from the Room dbs (using LiveData)的要求）
 
-## Cloud database 存储模型
+## Realtime database 存储模型
 
+Json树
+
+    {
+      "users":{
+       
+       "uid1":{
+        
+        "name":"",
+        "password":"",
+        "email":"",
+        "phone":""
+        "calendar":{
+         
+         "uid1":true,
+         "uid2":true,
+         ...
+         
+        }
+        
+       },
+       
+       "uid2":{...},
+       ...
+       
+      },
+      "calendars":{
+       
+       "uid1":{...
+       
+        ...
+        "member":{
+        
+         "user_uid1":0,
+         ...
+        
+        }
+       
+       },
+       "uid2":{...},
+       ...
+      
+      },
+      "events":{
+      
+       "calendar_uid1":{
+       
+        "year":{
+        
+         "month":{
+         
+          "day":{
+          
+           events:{...}
+          
+          }
+         
+         }
+        
+        }
+       
+       }
+      
+      }
+      
+     
+    }
+   
+## 提供的查询方法
 
 
 
