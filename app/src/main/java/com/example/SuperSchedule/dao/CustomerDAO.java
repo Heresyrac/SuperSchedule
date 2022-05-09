@@ -13,9 +13,9 @@ import java.util.List;
 
 @Dao
 public interface CustomerDAO {
-    @Query("SELECT * FROM customer ORDER BY last_name ASC")
+    @Query("SELECT rowid,* FROM customer ORDER BY last_name ASC")
     LiveData<List<Customer>> getAll();
-    @Query("SELECT * FROM customer WHERE uid = :customerId LIMIT 1")
+    @Query("SELECT rowid,* FROM customer WHERE rowid = :customerId LIMIT 1")
     Customer findByID(int customerId);
     @Insert
     void insert(Customer customer);
