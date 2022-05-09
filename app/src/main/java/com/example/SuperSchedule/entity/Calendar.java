@@ -10,6 +10,7 @@ import androidx.room.PrimaryKey;
 @Fts4
 @Entity
 public class Calendar {
+    @ColumnInfo(name = "rowid")
     @PrimaryKey(autoGenerate = true)
     public int uid;
     @ColumnInfo(name = "calendar_name")
