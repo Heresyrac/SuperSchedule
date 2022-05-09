@@ -4,15 +4,23 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
 import com.example.SuperSchedule.databinding.ActivityMainBinding;
+import com.example.SuperSchedule.databinding.HomeFragmentBinding;
 import com.example.SuperSchedule.entity.Customer;
+import com.example.SuperSchedule.fragment.HomeFragment;
 import com.example.SuperSchedule.viewmodel.CustomerViewModel;
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult;
@@ -22,14 +30,37 @@ import java.util.concurrent.CompletableFuture;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
+    private HomeFragmentBinding binding2;
     private CustomerViewModel customerViewModel;
+    private AppBarConfiguration mAppBarConfiguration;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
+        binding2 = HomeFragmentBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
-        binding.idTextField.setPlaceholderText("This is only used for Edit");
+
+        setSupportActionBar(binding.appBar.toolbar);
+        mAppBarConfiguration = new AppBarConfiguration.Builder(
+                R.id.nav_home_fragment,
+                R.id.nav_add_fragment,
+                R.id.nav_view_fragment)
+                // to display the Navigation button as a drawer symbol,not being shown as an Up
+                // button
+                .setOpenableLayout(binding.drawerLayout)
+                .build();
+        FragmentManager fragmentManager= getSupportFragmentManager();
+        NavHostFragment navHostFragment = (NavHostFragment)
+                fragmentManager.findFragmentById(R.id.nav_host_fragment);
+        NavController navController = navHostFragment.getNavController();
+        //Sets up a NavigationView for use with a NavController.
+        NavigationUI.setupWithNavController(binding.navView, navController);
+        //Sets up a Toolbar for use with a NavController.
+        NavigationUI.setupWithNavController(binding.appBar.toolbar,navController,
+                mAppBarConfiguration);
+
+        binding2.idTextField.setPlaceholderText("This is only used for Edit");
 
         customerViewModel =
                 ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication())
@@ -44,62 +75,62 @@ public class MainActivity extends AppCompatActivity {
                             allCustomers = allCustomers +
                                     System.getProperty("line.separator") + customerDetails;
                         }
-                        binding.textViewRead.setText("All data: " + allCustomers);
+                        binding2.textViewRead.setText("All data: " + allCustomers);
                     }
                 });
-        binding.loginButton.setOnClickListener(new View.OnClickListener() {
+        binding2.loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(LoginActivity.createIntent(MainActivity.this));
             } });
-        binding.addButton.setOnClickListener(new View.OnClickListener() {
+        binding2.addButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 String name=
-                        binding.nameTextField.getEditText().getText().toString();
+                        binding2.nameTextField.getEditText().getText().toString();
                 String
-                        surname=binding.surnameTextField.getEditText().getText().toString();
+                        surname=binding2.surnameTextField.getEditText().getText().toString();
                 String strSalary
-                        =binding.salaryTextField.getEditText().getText().toString();
+                        =binding2.salaryTextField.getEditText().getText().toString();
                 if ((!name.isEmpty() && name!= null) && (!surname.isEmpty() &&
                         strSalary!=null) && (!strSalary.isEmpty() && surname!=null)) {
                     double salary = Double.parseDouble(strSalary);
                     Customer customer = new Customer(name, surname, salary);
                     customerViewModel.insert(customer);
-                    binding.textViewAdd.setText("Added Record: " + name + " " + surname + " " + salary);
+                    binding2.textViewAdd.setText("Added Record: " + name + " " + surname + " " + salary);
                 }
             }});
-        binding.deleteButton.setOnClickListener(new View.OnClickListener() {
+        binding2.deleteButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 customerViewModel.deleteAll();
-                binding.textViewDelete.setText("All data was deleted");
+                binding2.textViewDelete.setText("All data was deleted");
             }
         });
-        binding.clearButton.setOnClickListener(new View.OnClickListener() {
+        binding2.clearButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                binding.nameTextField.getEditText().setText("");
-                binding.surnameTextField.getEditText().setText("");
-                binding.salaryTextField.getEditText().setText("");
+                binding2.nameTextField.getEditText().setText("");
+                binding2.surnameTextField.getEditText().setText("");
+                binding2.salaryTextField.getEditText().setText("");
             }
         });
-        binding.updateButton.setOnClickListener(new View.OnClickListener() {
+        binding2.updateButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 String strId
-                        =binding.idTextField.getEditText().getText().toString();
+                        =binding2.idTextField.getEditText().getText().toString();
                 int id=0;
                 if (!strId.isEmpty() && strId!= null)
                     id=Integer.parseInt(strId);
                 String name=
-                        binding.nameTextField.getEditText().getText().toString();
+                        binding2.nameTextField.getEditText().getText().toString();
                 String
-                        surname=binding.surnameTextField.getEditText().getText().toString();
+                        surname=binding2.surnameTextField.getEditText().getText().toString();
                 String strSalary
-                        =binding.salaryTextField.getEditText().getText().toString();
+                        =binding2.salaryTextField.getEditText().getText().toString();
                 if ((!name.isEmpty() && name!= null) && (!surname.isEmpty() &&
                         strSalary!=null) && (!strSalary.isEmpty() && surname!=null)) {
                     double salary = Double.parseDouble(strSalary);
 //this deals with versioning issues
-                    if (android.os.Build.VERSION.SDK_INT >=
-                            android.os.Build.VERSION_CODES.N) {
+                    if (Build.VERSION.SDK_INT >=
+                            Build.VERSION_CODES.N) {
                         CompletableFuture<Customer> customerCompletableFuture =
                                 customerViewModel.findByIDFuture(id);
                         customerCompletableFuture.thenApply(customer -> {
@@ -108,9 +139,9 @@ public class MainActivity extends AppCompatActivity {
                                 customer.lastName = surname;
                                 customer.salary = salary;
                                 customerViewModel.update(customer);
-                                binding.textViewUpdate.setText("Update was successful for ID: " + customer.uid);
+                                binding2.textViewUpdate.setText("Update was successful for ID: " + customer.uid);
                             } else {
-                                binding.textViewUpdate.setText("Id does not exist");
+                                binding2.textViewUpdate.setText("Id does not exist");
                             }
                             return customer;
                         });

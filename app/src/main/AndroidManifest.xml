@@ -11,6 +11,7 @@
         android:theme="@style/Theme.RoomJava">
         <activity
             android:name="com.example.SuperSchedule.MainActivity"
+            android:theme="@style/Theme.NavigationJava.NoActionBar"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
