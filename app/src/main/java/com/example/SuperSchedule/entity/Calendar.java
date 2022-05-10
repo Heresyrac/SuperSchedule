@@ -17,13 +17,13 @@ public class Calendar {
     @NonNull
     public String calendarName;
     @ColumnInfo(name = "owner_user")
-    public int ownerUser;
+    public String ownerUser;
     @ColumnInfo(name = "is_shared")
     public Boolean isShared;
 
 
     public Calendar( @NonNull String calendarName,
-                     int ownerUser,
+                     String ownerUser,
                      Boolean isShared
     ) {
         this.calendarName=calendarName;

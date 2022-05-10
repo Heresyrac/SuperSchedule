@@ -1,4 +1,4 @@
-package com.example.SuperSchedule.database;
+package com.example.SuperSchedule.database.room;
 
 import android.content.Context;
 
@@ -6,12 +6,10 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import com.example.SuperSchedule.dao.CalendarDAO;
-import com.example.SuperSchedule.dao.CustomerDAO;
-import com.example.SuperSchedule.dao.EventDAO;
+import com.example.SuperSchedule.database.dao.CalendarDAO;
+import com.example.SuperSchedule.database.dao.EventDAO;
 import com.example.SuperSchedule.entity.Calendar;
 import com.example.SuperSchedule.entity.CalendarMember;
-import com.example.SuperSchedule.entity.Customer;
 import com.example.SuperSchedule.entity.Event;
 import com.example.SuperSchedule.entity.User;
 
