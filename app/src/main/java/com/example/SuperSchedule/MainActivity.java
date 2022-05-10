@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         binding2.loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(LoginActivity.createIntent(MainActivity.this));
+                startActivity(LoginActivity.createIntent(binding2.loginButton.getContext()));
             } });
         binding2.addButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
