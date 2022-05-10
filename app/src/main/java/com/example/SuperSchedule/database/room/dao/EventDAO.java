@@ -1,4 +1,4 @@
-package com.example.SuperSchedule.dao;
+package com.example.SuperSchedule.database.room.dao;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
@@ -8,7 +8,6 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import com.example.SuperSchedule.entity.Calendar;
-import com.example.SuperSchedule.entity.Customer;
 import com.example.SuperSchedule.entity.Event;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.example.SuperSchedule.dao;
+package com.example.SuperSchedule.database.room.dao;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
