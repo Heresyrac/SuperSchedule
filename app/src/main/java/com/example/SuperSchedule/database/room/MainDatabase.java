@@ -6,8 +6,8 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import com.example.SuperSchedule.database.room.dao.CalendarDAO;
-import com.example.SuperSchedule.database.room.dao.EventDAO;
+import com.example.SuperSchedule.database.dao.CalendarDAO;
+import com.example.SuperSchedule.database.dao.EventDAO;
 import com.example.SuperSchedule.entity.Calendar;
 import com.example.SuperSchedule.entity.CalendarMember;
 import com.example.SuperSchedule.entity.Event;

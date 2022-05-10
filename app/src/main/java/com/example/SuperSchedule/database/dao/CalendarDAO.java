@@ -1,4 +1,4 @@
-package com.example.SuperSchedule.database.room.dao;
+package com.example.SuperSchedule.database.dao;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
@@ -17,8 +17,8 @@ public interface CalendarDAO {
     LiveData<List<Calendar>> getAll();
     @Query("SELECT rowid,* FROM calendar WHERE owner_user= :userUid")
     LiveData<List<Calendar>> getByUserId(String userUid);
-    @Query("SELECT rowid,* FROM calendar WHERE rowid= :calendarUid")
-    Calendar getByCalendarUid(int calendarUid);
+    @Query("SELECT rowid,* FROM calendar WHERE rowid= :calendarUid LIMIT 1")
+    LiveData<Calendar> getByCalendarUid(int calendarUid);
     @Insert
     void insert(Calendar calendar);
     @Delete

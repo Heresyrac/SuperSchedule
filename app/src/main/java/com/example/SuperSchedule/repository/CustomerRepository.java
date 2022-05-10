@@ -6,7 +6,7 @@ import android.os.Build;
 import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 
-import com.example.SuperSchedule.database.room.dao.CustomerDAO;
+import com.example.SuperSchedule.database.dao.CustomerDAO;
 import com.example.SuperSchedule.database.room.CustomerDatabase;
 import com.example.SuperSchedule.entity.Customer;
 

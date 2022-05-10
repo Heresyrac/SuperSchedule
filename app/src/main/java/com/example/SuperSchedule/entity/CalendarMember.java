@@ -17,7 +17,7 @@ public class CalendarMember {
     public int calendarUid;
     @ColumnInfo(name = "user_uid")
     @NonNull
-    public int userUid;
+    public String userUid;
     @ColumnInfo(name = "user_auth_lv")
     public int userAuthLv;  //0->viewer
                             //1->editor
@@ -27,11 +27,20 @@ public class CalendarMember {
 
 
     public CalendarMember( @NonNull int calendarUid,
-                           @NonNull int userUid,
+                           @NonNull String userUid,
                            int userAuthLv
     ) {
         this.calendarUid=calendarUid;
         this.userUid=userUid;
+        this.userAuthLv=userAuthLv;
+
+    }
+    public CalendarMember( Calendar calendar,
+                           User user,
+                           int userAuthLv
+    ) {
+        this.calendarUid=calendar.uid;
+        this.userUid=user.uid;
         this.userAuthLv=userAuthLv;
 
     }
