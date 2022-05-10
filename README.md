@@ -20,11 +20,7 @@
     public int uid; //自动生成的uid
     public String eventName;  //日程名
     
-    public int year;  //日程发生的年,月,日,时，分
-    public int month;
-    public int day;
-    public int hour;
-    public int minute;
+    public String time; //time->"2022-05-11-01-11"
     
     public int ownerCalendar; //每个Event从属于某一Calendar，ownerCalendar记录此 Calendar的uid
     public Boolean enableAlarm; //该Calendar是否需要提醒（该功能可以砍）
@@ -101,14 +97,11 @@ Json树
        
        "uid1":{
         
-        "name":"",
-        "password":"",
-        "email":"",
-        "phone":""
+        "user_entity":{ USER },
         "calendar":{
          
-         "uid1":true,
-         "uid2":true,
+         "calendaruid1":true,
+         "calendaruid2":true,
          ...
          
         }
@@ -121,12 +114,15 @@ Json树
       },
       "calendars":{
        
-       "uid1":{...
+       "uid1":{
+        "calendar_entity":{CALENDAR}
        
         ...
         "member":{
         
          "user_uid1":0,
+         "user_uid1":1,
+         "user_uid1":2,
          ...
         
         }
@@ -140,18 +136,8 @@ Json树
       
        "calendar_uid1":{
        
-        "year":{
-        
-         "month":{
-         
-          "day":{
-          
-           events:{...}
-          
-          }
-         
-         }
-        
+        "eventuid1":{
+         "event_entity":{EVENT}
         }
        
        }

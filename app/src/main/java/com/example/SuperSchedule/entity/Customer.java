@@ -9,6 +9,7 @@ import androidx.room.PrimaryKey;
 @Entity
 public class Customer {
     @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "rowid")
     public int uid;
     @ColumnInfo(name = "first_name")
     @NonNull
