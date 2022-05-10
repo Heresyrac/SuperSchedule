@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/N_white">
+
+    <com.necer.view.WeekBar
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:textColor="@color/N_white"
+        android:background="@color/colorPrimary"/>
+
+    <com.necer.calendar.Miui9Calendar
+        android:id="@+id/miui9Calendar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+    </com.necer.calendar.Miui9Calendar>
+
+
+    <Button
+        android:id="@+id/calenderAdd"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/shape_add_bg"
+        android:layout_margin="15dp"
+        android:textSize="16sp"
+        android:text="add"
+        android:textColor="@color/N_white"/>
+
+</LinearLayout>

@@ -2,11 +2,13 @@ buildscript {
     repositories {
         // Check that you have the following line (if not, add it):
         google()  // Google's Maven repository
-
+        jcenter()
     }
     dependencies {
 
         // Add this line
+        classpath "com.android.tools.build:gradle:4.0.2"
+        classpath 'org.greenrobot:greendao-gradle-plugin:3.3.0'
         classpath 'com.google.gms:google-services:4.3.10'
 
     }
@@ -19,15 +21,16 @@ plugins {
 
 
 
-'''allprojects {
+allprojects {
 
     repositories {
         // Check that you have the following line (if not, add it):
         google()  // Google's Maven repository
-
+        jcenter()
+        maven { url 'https://www.jitpack.io' }
 
     }
-}'''
+}
 task clean(type: Delete) {
     delete rootProject.buildDir
 }

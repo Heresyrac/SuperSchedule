@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
 
     <!-- Green theme -->
     <color name="material_green_50">#E8F5E9</color>
@@ -21,6 +18,14 @@
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="colorPrimary">#8FAADC</color>
+    <color name="colorPrimaryDark">#8FAADC</color>
+    <color name="colorAccent">#8FAADC</color>
+    <color name="c33">#333333</color>
+    <color name="c66">#666666</color>
+    <color name="c99">#999999</color>
+    <color name="black">#000000</color>
+    <color name="black20">#20000000</color>
 </resources>
