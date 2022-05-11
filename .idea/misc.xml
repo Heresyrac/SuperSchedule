@@ -6,6 +6,14 @@
         <entry key="..\:/Github/Android/SuperSchedule/app/src/main/res/drawable-v24/ic_anon_user_48dp.xml" value="0.1265" />
         <entry key="..\:/Github/Android/SuperSchedule/app/src/main/res/layout/activity_firebase_ui.xml" value="0.17806484295845998" />
         <entry key="..\:/Github/Android/SuperSchedule/app/src/main/res/layout/activity_main.xml" value="0.17806484295845998" />
+        <entry key="app/src/main/res/layout/activity_dashboard.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/dashboard_layout.xml" value="0.23385416666666667" />
+        <entry key="app/src/main/res/layout/dashboardlayout.xml" value="0.23385416666666667" />
+        <entry key="app/src/main/res/layout/fragment1_layou.xml" value="0.23385416666666667" />
+        <entry key="app/src/main/res/layout/fragment1_layout.xml" value="0.23385416666666667" />
+        <entry key="app/src/main/res/layout/fragment2_layout.xml" value="0.23385416666666667" />
       </map>
     </option>
   </component>

@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         binding.loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //startActivity(DashboardActivity.creacteIntent(MainActivity.this);
                 startActivity(LoginActivity.createIntent(MainActivity.this));
             } });
         binding.addButton.setOnClickListener(new View.OnClickListener() {
