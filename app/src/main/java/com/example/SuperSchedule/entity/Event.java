@@ -9,13 +9,20 @@ import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Fts4;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
-@Fts4
+
+import com.google.firebase.database.Exclude;
+
+import java.util.HashMap;
+import java.util.Map;
+
 @Entity
 public class Event {
+    @NonNull
     @ColumnInfo(name = "rowid")
-    @PrimaryKey(autoGenerate = true)
-    public int uid;
+    @PrimaryKey
+    public String uid;
     @ColumnInfo(name = "event_name")
     @NonNull
     public String eventName;
@@ -23,7 +30,7 @@ public class Event {
     public String time;// 2022-12-02-13-50(0-12)
 
     @ColumnInfo(name = "owner_calendar")
-    public int ownerCalendar;
+    public String ownerCalendar;
 
     @ColumnInfo(name = "is_shared")
     public Boolean isShared;
@@ -34,22 +41,31 @@ public class Event {
 
     public String location;
 
-    public void setOwnerCalendar( Calendar ownerCalendar) {
-        this.ownerCalendar = ownerCalendar.uid;
-        this.isShared=ownerCalendar.isShared;
-    }
+
+
     private int getTime(int part){
         String s=time.split("-")[part];
         return valueOf(s);
     }
+    public String getUid() { return uid; }
+    @NonNull
+    public String getTime() { return time; }
+    public String getOwnerCalendar() { return ownerCalendar; }
+    public String getLocation() { return location; }
+    public Boolean getShared() { return isShared; }
+    public Boolean getEnableAlarm() { return enableAlarm; }
+    @NonNull
+    public String getEventName() { return eventName; }
+
     public int getYear(){return getTime(0);}
     public int getMonth(){return getTime(1);}
     public int getDay(){return getTime(2);}
     public int getHour(){return getTime(3);}
     public int getMinute(){return getTime(4);}
 
+    public void setUid(@NonNull String uid) { this.uid = uid; }
 
-    private void setTime(int input,int part,int max){
+    private void setTime(int input, int part, int max){
         String str="0000"+ String.valueOf(input);
         int len=str.length();
         str=str.substring(len-max,len);
@@ -62,7 +78,10 @@ public class Event {
     public void setDay(int day){setTime(day,2,2);}
     public void setHour(int hour){setTime(hour,3,2);}
     public void setMinute(int minute){setTime(minute,4,2);}
-
+    public void setOwnerCalendar( Calendar ownerCalendar) {
+        this.ownerCalendar = ownerCalendar.uid;
+        this.isShared=ownerCalendar.isShared;
+    }
 
 
     public void setEnableAlarm(Boolean enableAlarm) {
@@ -74,6 +93,7 @@ public class Event {
     }
 
     public Event(){};
+    @Ignore
     public Event(@NonNull String eventName,
                  int year,
                  int month,
@@ -84,7 +104,7 @@ public class Event {
                  boolean enableAlarm,
                  String location
                   ) {
-
+        this.uid="";
         this.eventName=eventName;
         this.time="2000-01-01-00-00";
         setYear(year);
@@ -96,4 +116,17 @@ public class Event {
         this.enableAlarm=enableAlarm;
         this.location=location;
     }
+    @Exclude
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("uid", uid);
+        result.put("eventName", eventName);
+        result.put("ownerCalendar", ownerCalendar);
+        result.put("enableAlarm",enableAlarm);
+        result.put("location", location);
+        result.put("time", time);
+        result.put("isShared",isShared);
+        return result;
+    }
+
 }

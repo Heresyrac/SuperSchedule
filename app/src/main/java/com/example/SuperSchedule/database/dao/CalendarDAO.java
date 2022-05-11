@@ -13,18 +13,18 @@ import java.util.List;
 
 @Dao
 public interface CalendarDAO {
-    @Query("SELECT rowid,* FROM calendar")
+    @Query("SELECT * FROM calendar")
     LiveData<List<Calendar>> getAll();
-    @Query("SELECT rowid,* FROM calendar WHERE owner_user= :userUid")
+    @Query("SELECT * FROM calendar WHERE owner_user= :userUid")
     LiveData<List<Calendar>> getByUserId(String userUid);
-    @Query("SELECT rowid,* FROM calendar WHERE rowid= :calendarUid LIMIT 1")
-    LiveData<Calendar> getByCalendarUid(int calendarUid);
+    @Query("SELECT * FROM calendar WHERE rowid= :calendarUid LIMIT 1")
+    LiveData<Calendar> getByCalendarUid(String calendarUid);
     @Insert
     void insert(Calendar calendar);
     @Delete
     void delete(Calendar calendar);
     @Update
-    void updateCustomer(Calendar calendar);
+    void update(Calendar calendar);
     @Query("DELETE FROM calendar")
     void deleteAll();
 }

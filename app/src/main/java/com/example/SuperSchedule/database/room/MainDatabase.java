@@ -7,7 +7,9 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 import com.example.SuperSchedule.database.dao.CalendarDAO;
+import com.example.SuperSchedule.database.dao.CalendarMemberDAO;
 import com.example.SuperSchedule.database.dao.EventDAO;
+import com.example.SuperSchedule.database.dao.UserDAO;
 import com.example.SuperSchedule.entity.Calendar;
 import com.example.SuperSchedule.entity.CalendarMember;
 import com.example.SuperSchedule.entity.Event;
@@ -21,10 +23,12 @@ import java.util.concurrent.Executors;
         CalendarMember.class,
         Event.class,
         User.class
-        }, version = 1, exportSchema = false)
+        }, version = 2, exportSchema = false)
 public abstract class MainDatabase extends RoomDatabase {
     public abstract CalendarDAO calendarDao();
-    public abstract EventDAO eventDao();//*
+    public abstract EventDAO eventDao();
+    public abstract UserDAO userDao();
+    public abstract CalendarMemberDAO calendarMemberDao();
     private static MainDatabase INSTANCE;
 
     private static final int NUMBER_OF_THREADS = 4;
