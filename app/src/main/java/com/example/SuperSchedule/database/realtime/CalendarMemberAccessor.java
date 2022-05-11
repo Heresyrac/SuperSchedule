@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class CalendarMemberAccessor implements CalendarMemberDAO {
+public class CalendarMemberAccessor implements CalendarMemberDAO {
     private static final String LOG_TAG = "RealtimeCalMember";
     DatabaseReference rootRef;
     DatabaseReference calendarmemberRef;
@@ -32,7 +32,7 @@ public abstract class CalendarMemberAccessor implements CalendarMemberDAO {
                 .orderByChild("userAuthLv");
         return new FirebaseQueryLiveData<>(accessQuery);
     }
-    public LiveData<Calendar> getByCalendarUid(String calendarUid){
+    public LiveData<List<CalendarMember>> getByCalendarId(String calendarUid){
         Query accessQuery= calendarmemberRef
                 .child("by_calendar")
                 .child(calendarUid)
@@ -47,35 +47,21 @@ public abstract class CalendarMemberAccessor implements CalendarMemberDAO {
         return new FirebaseQueryLiveData<>(accessQuery);
     };
     public void insert(CalendarMember calendarMember){
-        Map<String, Object> calendarMemberUpdate = new HashMap<>();
-        calendarValue.put("uid", calendar.uid);
-        calendarValue.put("ownerUser", calendar.ownerUser);
+        String key1=calendarMember.userUid;
+        String key2=calendarMember.calendarUid;
+        if(key1==null|key2==null){
+            Log.e(LOG_TAG,"Can't update calendar without uid");
+            return;
+        }
+        Map<String, Object> childUpdates = new HashMap<>();
+        childUpdates.put("/by_user/" +
+                calendarMember.userUid+"/"+
+                calendarMember.calendarUid,calendarMember.toMap());
+        childUpdates.put("/by_calendar/" +
+                calendarMember.calendarUid+"/"+
+                calendarMember.userUid,calendarMember.toMap());
 
-        calendarmemberRef.child("by_user")
-                .child(calendarMember.userUid)
-                .child(calendarMember.calendarUid)
-                .setValue(calendarMember)
-                .addOnSuccessListener(aVoid -> {
-            // Write was successful!
-            Log.d(LOG_TAG, "Success insert data A");
-        })
-                .addOnFailureListener(e -> {
-                    // Write failed
-                    Log.e(LOG_TAG, "Error insert data A", e);
-                });
-        calendarmemberRef.child(key).setValue(calendarMember).addOnSuccessListener(aVoid -> {
-            // Write was successful!
-            Log.d(LOG_TAG, "Success insert data A");
-        })
-                .addOnFailureListener(e -> {
-                    // Write failed
-                    Log.e(LOG_TAG, "Error insert data A", e);
-                });
-    }
-    public void insert(Calendar calendar){
-        String key = calendarmemberRef.push().getKey();
-        calendar.uid=key;
-        calendarmemberRef.child(key).setValue(calendar).addOnSuccessListener(aVoid -> {
+        calendarmemberRef.updateChildren(childUpdates).addOnSuccessListener(aVoid -> {
             // Write was successful!
             Log.d(LOG_TAG, "Success insert data");
         })
@@ -85,49 +71,43 @@ public abstract class CalendarMemberAccessor implements CalendarMemberDAO {
                 });
 
     }
-    public void delete(Calendar calendar){
-        String key=calendar.uid;
-        if(key==null){
-            Log.e(LOG_TAG,"Can't delete calendar without uid");
-        }
-        calendarmemberRef.child(key).setValue(null).addOnSuccessListener(aVoid -> {
+
+    public void delete(CalendarMember calendarMember){
+        Map<String, Object> childUpdates = new HashMap<>();
+        childUpdates.put("/by_user/" +
+                calendarMember.userUid+"/"+
+                calendarMember.calendarUid,null);
+        childUpdates.put("/by_calendar/" +
+                calendarMember.calendarUid+"/"+
+                calendarMember.userUid,null);
+
+        calendarmemberRef.updateChildren(childUpdates).addOnSuccessListener(aVoid -> {
             // Write was successful!
-            Log.d(LOG_TAG, "Success delete data");
+            Log.d(LOG_TAG, "Success insert data");
         })
                 .addOnFailureListener(e -> {
                     // Write failed
-                    Log.e(LOG_TAG, "Error delete data", e);
-                });
+                    Log.e(LOG_TAG, "Error insert data", e);
+                });;
 
     }
 
     public void update(CalendarMember calendarMember){
-        String userUid=calendarMember.userUid;
-        String calendarUid=calendarMember.calendarUid;
-
-        if(userUid==null | calendarUid==null){
-            Log.e(LOG_TAG,"Can't update calendarmember without user(or calendar)");
-            return;
-        }
-        calendarmemberRef.child(key).setValue(null).addOnSuccessListener(aVoid -> {
-            // Write was successful!
-            Log.d(LOG_TAG, "Success update data");
-        })
-                .addOnFailureListener(e -> {
-                    // Write failed
-                    Log.e(LOG_TAG, "Error delete data", e);
-                });
+        insert(calendarMember);
     }
     public void deleteAll(){
-        calendarmemberRef.setValue(null).addOnSuccessListener(aVoid -> {
+        Map<String, Object> childUpdates = new HashMap<>();
+        childUpdates.put("/by_user",null);
+        childUpdates.put("/by_calendar",null);
+
+        calendarmemberRef.updateChildren(childUpdates).addOnSuccessListener(aVoid -> {
             // Write was successful!
-            Log.d(LOG_TAG, "Success delete all data");
+            Log.d(LOG_TAG, "Success insert data");
         })
                 .addOnFailureListener(e -> {
                     // Write failed
-                    Log.e(LOG_TAG, "Error delete delete data", e);
-                });
+                    Log.e(LOG_TAG, "Error insert data", e);
+                });;
     }
 
-}
 }

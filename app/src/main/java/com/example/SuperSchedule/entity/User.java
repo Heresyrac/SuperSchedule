@@ -4,9 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Fts4;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.Exclude;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Entity
 public class User {
@@ -26,7 +31,7 @@ public class User {
     public String getPassword() { return password; }
     public String getName() { return name; }
     public String getEmail() { return email; }
-
+    @Ignore
     public User(String uid,
                 String name,
                 String password,
@@ -40,12 +45,22 @@ public class User {
         this.phone=phone;
 
     }
-
+    @Ignore
     public User(FirebaseUser user){
         this.uid=user.getUid();
         this.name=user.getDisplayName();
         this.password=null;
         this.email=user.getEmail();
         this.phone=user.getPhoneNumber();
+    }
+    @Exclude
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("uid", uid);
+        result.put("email", email);
+        result.put("name", name);
+        result.put("password",password);
+        result.put("phone", phone);
+        return result;
     }
 }

@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Fts4;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.google.firebase.database.Exclude;
@@ -18,8 +19,9 @@ import java.util.Map;
 
 @Entity
 public class Event {
+    @NonNull
     @ColumnInfo(name = "rowid")
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     public String uid;
     @ColumnInfo(name = "event_name")
     @NonNull
@@ -61,8 +63,9 @@ public class Event {
     public int getHour(){return getTime(3);}
     public int getMinute(){return getTime(4);}
 
+    public void setUid(@NonNull String uid) { this.uid = uid; }
 
-    private void setTime(int input,int part,int max){
+    private void setTime(int input, int part, int max){
         String str="0000"+ String.valueOf(input);
         int len=str.length();
         str=str.substring(len-max,len);
@@ -90,6 +93,7 @@ public class Event {
     }
 
     public Event(){};
+    @Ignore
     public Event(@NonNull String eventName,
                  int year,
                  int month,
@@ -100,7 +104,7 @@ public class Event {
                  boolean enableAlarm,
                  String location
                   ) {
-
+        this.uid="";
         this.eventName=eventName;
         this.time="2000-01-01-00-00";
         setYear(year);
@@ -119,6 +123,9 @@ public class Event {
         result.put("eventName", eventName);
         result.put("ownerCalendar", ownerCalendar);
         result.put("enableAlarm",enableAlarm);
+        result.put("location", location);
+        result.put("time", time);
+        result.put("isShared",isShared);
         return result;
     }
 

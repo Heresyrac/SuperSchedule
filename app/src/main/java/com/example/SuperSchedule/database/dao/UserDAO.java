@@ -1,6 +1,7 @@
 package com.example.SuperSchedule.database.dao;
 
 import androidx.lifecycle.LiveData;
+import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
@@ -11,7 +12,7 @@ import com.example.SuperSchedule.entity.Event;
 import com.example.SuperSchedule.entity.User;
 
 import java.util.List;
-
+@Dao
 public interface UserDAO {
     @Query("SELECT * FROM user ORDER BY name ASC")
     LiveData<List<User>> getAll();
@@ -26,6 +27,4 @@ public interface UserDAO {
     @Update
     void update(User user);
 
-    @Query("DELETE FROM user")
-    void deleteAll();
 }

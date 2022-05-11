@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Fts4;
+import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
@@ -12,13 +13,10 @@ import com.google.firebase.database.Exclude;
 import java.util.HashMap;
 import java.util.Map;
 
-@Entity(indices = {@Index(value = {"calendar_uid", "user_uid"},
+@Entity(primaryKeys = {"calendar_uid", "user_uid"},
+        indices = {@Index(value = {"calendar_uid", "user_uid"},
         unique = true)})
 public class CalendarMember {
-    @ColumnInfo(name = "rowid")
-    @PrimaryKey(autoGenerate = true)
-    public String uid;
-
     @ColumnInfo(name = "calendar_uid")
     @NonNull
     public String calendarUid;
@@ -29,9 +27,6 @@ public class CalendarMember {
     public int userAuthLv;  //0->viewer
                             //1->editor
                             //2->owner
-
-
-    public String getUid() {return uid; }
     @NonNull
     public String getCalendarUid() { return calendarUid; }
     public int getUserAuthLv() { return userAuthLv; }
@@ -40,6 +35,7 @@ public class CalendarMember {
 
 
     public CalendarMember(){};
+    @Ignore
     public CalendarMember( @NonNull String calendarUid,
                            @NonNull String userUid,
                            int userAuthLv
@@ -61,7 +57,6 @@ public class CalendarMember {
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
-        result.put("uid", uid);
         result.put("calendarUid", calendarUid);
         result.put("userUid", userUid);
         result.put("userAuthLv",userAuthLv);

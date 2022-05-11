@@ -1,6 +1,7 @@
 package com.example.SuperSchedule.database.dao;
 
 import androidx.lifecycle.LiveData;
+import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
@@ -11,7 +12,7 @@ import com.example.SuperSchedule.entity.Customer;
 
 import java.util.Calendar;
 import java.util.List;
-
+@Dao
 public interface CalendarMemberDAO {
     @Query("SELECT * FROM calendarmember WHERE user_uid= :userUid")
     LiveData<List<CalendarMember>> getByUserId(String userUid);

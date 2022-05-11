@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Fts4;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.google.firebase.database.Exclude;
@@ -15,7 +16,8 @@ import java.util.Map;
 
 @Entity
 public class Calendar {
-    @PrimaryKey(autoGenerate = true)
+    @NonNull
+    @PrimaryKey
     public String uid;
     @ColumnInfo(name = "calendar_name")
     public String calendarName;
@@ -29,11 +31,13 @@ public class Calendar {
     public String getOwnerUser() {  return ownerUser; }
     public String getUid() { return uid; }
 
-
+    public Calendar(){};
+    @Ignore
     public Calendar(@NonNull String calendarName,
                     String ownerUser,
                     Boolean isShared
     ) {
+        this.uid="";
         this.calendarName=calendarName;
         this.ownerUser=ownerUser;
         this.isShared=isShared;

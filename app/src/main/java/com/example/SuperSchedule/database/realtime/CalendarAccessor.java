@@ -73,12 +73,7 @@ public class CalendarAccessor  implements CalendarDAO {
             return;
         }
 
-        Map<String, Object> calendarValue = new HashMap<>();
-        calendarValue.put("uid", calendar.uid);
-        calendarValue.put("ownerUser", calendar.ownerUser);
-        //Don't change the owner
-        calendarValue.put("isShared", calendar.isShared);
-        calendarValue.put("calendarName", calendar.calendarName);
+        Map<String, Object> calendarValue = calendar.toMap();
 
 
 

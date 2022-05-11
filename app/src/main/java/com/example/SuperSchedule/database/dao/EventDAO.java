@@ -14,13 +14,12 @@ import java.util.List;
 
 @Dao
 public interface EventDAO {
-    @Query("SELECT * FROM event " +
-            "ORDER BY time ASC")
-    LiveData<List<Event>> getAll();
 
     @Query("SELECT * FROM event WHERE rowid= :eventUid " +
-            "ORDER BY time ASC LIMIT 1")
-    LiveData<Event> getByEventId(String eventUid);
+            "AND owner_calendar= :calendarUid" +
+            " ORDER BY time ASC LIMIT 1")
+    LiveData<Event> getByEventId(String calendarUid,String eventUid);
+
     @Query("SELECT * FROM event WHERE owner_calendar= :calendarUid " +
             "ORDER BY time ASC")
     LiveData<List<Event>> getByCalendarId(String calendarUid);
@@ -29,7 +28,7 @@ public interface EventDAO {
     @Query("SELECT * FROM event WHERE rowid= :calendarUid AND " +
             "time BETWEEN :time1 AND :time2 "+
             "ORDER BY time ASC")
-    LiveData<List<Event>> getBetweenDay(String calendarUid,String time1,String time2);
+    LiveData<List<Event>> getBetweenTime(String calendarUid,String time1,String time2);
     //time->"2022-10-10-23-59"
 
 
@@ -43,6 +42,4 @@ public interface EventDAO {
     @Update
     void update(Event event);
 
-    @Query("DELETE FROM event")
-    void deleteAll();
 }
