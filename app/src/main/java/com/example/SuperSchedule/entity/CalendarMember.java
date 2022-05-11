@@ -4,17 +4,18 @@ import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Fts4;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
-@Fts4
-@Entity
+@Entity(indices = {@Index(value = {"calendar_uid", "user_uid"},
+        unique = true)})
 public class CalendarMember {
     @ColumnInfo(name = "rowid")
     @PrimaryKey(autoGenerate = true)
-    public int uid;
+    public String uid;
 
     @ColumnInfo(name = "calendar_uid")
     @NonNull
-    public int calendarUid;
+    public String calendarUid;
     @ColumnInfo(name = "user_uid")
     @NonNull
     public String userUid;
@@ -26,7 +27,7 @@ public class CalendarMember {
 
 
 
-    public CalendarMember( @NonNull int calendarUid,
+    public CalendarMember( @NonNull String calendarUid,
                            @NonNull String userUid,
                            int userAuthLv
     ) {

@@ -10,12 +10,11 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Fts4;
 import androidx.room.PrimaryKey;
-@Fts4
 @Entity
 public class Event {
     @ColumnInfo(name = "rowid")
     @PrimaryKey(autoGenerate = true)
-    public int uid;
+    public String uid;
     @ColumnInfo(name = "event_name")
     @NonNull
     public String eventName;
@@ -23,7 +22,7 @@ public class Event {
     public String time;// 2022-12-02-13-50(0-12)
 
     @ColumnInfo(name = "owner_calendar")
-    public int ownerCalendar;
+    public String ownerCalendar;
 
     @ColumnInfo(name = "is_shared")
     public Boolean isShared;

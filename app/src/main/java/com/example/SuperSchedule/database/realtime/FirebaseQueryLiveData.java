@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -13,11 +14,11 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.lang.reflect.ParameterizedType;
 
-public class FirebaseQueryLiveData<T> extends LiveData<T> {
+public class FirebaseQueryLiveData<T> extends MutableLiveData<T> {
     private static final String LOG_TAG = "FirebaseQueryLiveData";
 
-    private final Query query;
-    private ValueEventListener listener = new MyValueEventListener();
+    public final Query query;
+    public ValueEventListener listener = new ListValueEventListener();
 
     public FirebaseQueryLiveData(Query query) {
         this.query = query;
@@ -64,12 +65,13 @@ public class FirebaseQueryLiveData<T> extends LiveData<T> {
         listenerRemovePending = true;
     }
 
-    private class MyValueEventListener implements ValueEventListener {
+
+    public class ListValueEventListener implements ValueEventListener {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
             setValue(dataSnapshot.getValue((Class<T>)((ParameterizedType)getClass()
-                            .getGenericSuperclass())
-                            .getActualTypeArguments()[0]));
+                    .getGenericSuperclass())
+                    .getActualTypeArguments()[0]));
         }
 
         @Override
@@ -77,4 +79,18 @@ public class FirebaseQueryLiveData<T> extends LiveData<T> {
             Log.e(LOG_TAG, "Can't listen to query " + query, databaseError.toException());
         }
     }
+    public class allMemberValueEventListener implements ValueEventListener {
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+            setValue(dataSnapshot.getValue((Class<T>)((ParameterizedType)getClass()
+                    .getGenericSuperclass())
+                    .getActualTypeArguments()[0]));
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+            Log.e(LOG_TAG, "Can't listen to query " + query, databaseError.toException());
+        }
+    }
+
 }

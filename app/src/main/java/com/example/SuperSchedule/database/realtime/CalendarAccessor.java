@@ -1,19 +1,23 @@
 package com.example.SuperSchedule.database.realtime;
 
+import android.util.Log;
+
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
-import androidx.room.Delete;
-import androidx.room.Insert;
-import androidx.room.Query;
-import androidx.room.Update;
 
 import com.example.SuperSchedule.database.dao.CalendarDAO;
 import com.example.SuperSchedule.entity.Calendar;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public abstract class CalendarAccessor  implements CalendarDAO {
-    /*
+public class CalendarAccessor  implements CalendarDAO {
+    private static final String LOG_TAG = "RealtimeCalendar";
     DatabaseReference rootRef;
     DatabaseReference calendarRef;
     public CalendarAccessor(DatabaseReference rootRef){
@@ -21,22 +25,81 @@ public abstract class CalendarAccessor  implements CalendarDAO {
         this.calendarRef=rootRef.child("calendars");
     }
     public LiveData<List<Calendar>> getAll(){
-        Query accessQuery=calendarRef.child();
-        FirebaseQueryLiveData<List<Calendar>> liveData=
-                new FirebaseQueryLiveData<List<Calendar>>();
-        return liveData;
+        Query accessQuery=calendarRef;
+        return new FirebaseQueryLiveData<>(accessQuery);
     }
-    @Query("SELECT rowid,* FROM calendar WHERE owner_user= :userUid")
-    LiveData<List<Calendar>> getByUserId(String userUid);
-    @Query("SELECT rowid,* FROM calendar WHERE rowid= :calendarUid")
-    Calendar getByCalendarUid(int calendarUid);
-    @Insert
-    void insert(Calendar calendar);
-    @Delete
-    void delete(Calendar calendar);
-    @Update
-    void updateCustomer(Calendar calendar);
-    @Query("DELETE FROM calendar")
-    void deleteAll(){};
-    */
+    public LiveData<List<Calendar>> getByUserId(String userUid){
+        Query accessQuery=calendarRef.orderByChild("ownerUser").equalTo(userUid);
+        return new FirebaseQueryLiveData<>(accessQuery);
+    }
+    public LiveData<Calendar> getByCalendarUid(String calendarUid){
+        Query accessQuery=calendarRef.orderByChild("uid").equalTo(calendarUid);
+        return new FirebaseQueryLiveData<>(accessQuery);
+    }
+    public void insert(Calendar calendar){
+        String key =calendarRef.push().getKey();
+        calendar.uid=key;
+        calendarRef.child(key).setValue(calendar).addOnSuccessListener(aVoid -> {
+            // Write was successful!
+            Log.d(LOG_TAG, "Success insert data");
+        })
+                .addOnFailureListener(e -> {
+                    // Write failed
+                    Log.e(LOG_TAG, "Error insert data", e);
+                });
+
+    }
+    public void delete(Calendar calendar){
+        String key=calendar.uid;
+        if(key==null){
+            Log.e(LOG_TAG,"Can't delete calendar without uid");
+            return;
+        }
+        calendarRef.child(key).setValue(null).addOnSuccessListener(aVoid -> {
+            // Write was successful!
+            Log.d(LOG_TAG, "Success delete data");
+        })
+                .addOnFailureListener(e -> {
+                    // Write failed
+                    Log.e(LOG_TAG, "Error delete data", e);
+                });
+
+    }
+
+    public void update(Calendar calendar){//Don't change the owner
+        String key=calendar.uid;
+        if(key==null){
+            Log.e(LOG_TAG,"Can't update calendar without uid");
+            return;
+        }
+
+        Map<String, Object> calendarValue = new HashMap<>();
+        calendarValue.put("uid", calendar.uid);
+        calendarValue.put("ownerUser", calendar.ownerUser);
+        //Don't change the owner
+        calendarValue.put("isShared", calendar.isShared);
+        calendarValue.put("calendarName", calendar.calendarName);
+
+
+
+        calendarRef.child(key).updateChildren(calendarValue).addOnSuccessListener(aVoid -> {
+            // Write was successful!
+            Log.d(LOG_TAG, "Success update data");
+        })
+                .addOnFailureListener(e -> {
+                    // Write failed
+                    Log.e(LOG_TAG, "Error delete data", e);
+                });
+    }
+    public void deleteAll(){
+        calendarRef.setValue(null).addOnSuccessListener(aVoid -> {
+            // Write was successful!
+            Log.d(LOG_TAG, "Success delete all data");
+        })
+                .addOnFailureListener(e -> {
+                    // Write failed
+                    Log.e(LOG_TAG, "Error delete delete data", e);
+                });
+    }
+
 }

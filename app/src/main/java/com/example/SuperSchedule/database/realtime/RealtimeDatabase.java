@@ -26,8 +26,13 @@ public class RealtimeDatabase {
     CalendarMemberDAO calendarMemberDAO;
     UserDAO userDAO;
     private static RealtimeDatabase uniqueInstance = null;
+    private static final int NUMBER_OF_THREADS = 4;
+    public static final ExecutorService databaseWriteExecutor =
+            Executors.newFixedThreadPool(NUMBER_OF_THREADS);
     //private Object holdedShareContent = null;
     private RealtimeDatabase() {
+        database.setPersistenceEnabled(true);
+        database.getReference("scores").keepSynced(true);
         /*eventDAO=new EventAccessor(rootRef);
         calendarDAO=new CalendarAccessor(rootRef);
         calendarMemberDAO=new CalendarMemberAccessor(rootRef);
