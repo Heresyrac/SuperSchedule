@@ -114,29 +114,25 @@ Json树
       
       },
       "events":{
-      
-       "calendar_uid1":{
        
         "eventuid1":{ EVENT }
         "eventuid2":{ EVENT }
         "eventuid3":{ EVENT }
-       
-       }
       
       }
       "calendarmembers":{
        "by_user":{
        
          "user_uid1":{
-          "calendarmemberuid1":{CALENDARMEMBER},
-          "calendarmemberuid2":{CALENDARMEMBER},
-          "calendarmemberuid3":{CALENDARMEMBER},
+          "calendaruid1":{CALENDARMEMBER},
+          "calendaruid2":{CALENDARMEMBER},
+          "calendaruid3":{CALENDARMEMBER},
           ...
          },
          "user_uid2":{
-          "calendarmemberuid1":{CALENDARMEMBER},
-          "calendarmemberuid2":{CALENDARMEMBER},
-          "calendarmemberuid3":{CALENDARMEMBER},
+          "calendarruid1":{CALENDARMEMBER},
+          "calendaruid2":{CALENDARMEMBER},
+          "calendaruid3":{CALENDARMEMBER},
           ...
          },
          "user_uid3":{...},
