@@ -13,10 +13,12 @@ import com.example.SuperSchedule.entity.CalendarMember;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public abstract class CalendarMemberAccessor implements CalendarMemberDAO {
-    private static final String LOG_TAG = "RealtimeMember";
+    private static final String LOG_TAG = "RealtimeCalMember";
     DatabaseReference rootRef;
     DatabaseReference calendarmemberRef;
     public CalendarMemberAccessor(DatabaseReference rootRef){
@@ -27,44 +29,49 @@ public abstract class CalendarMemberAccessor implements CalendarMemberDAO {
         Query accessQuery= calendarmemberRef
                 .child("by_user")
                 .child(userUid)
-                .orderByChild("userAuthLv")
+                .orderByChild("userAuthLv");
         return new FirebaseQueryLiveData<>(accessQuery);
     }
     public LiveData<Calendar> getByCalendarUid(String calendarUid){
         Query accessQuery= calendarmemberRef
                 .child("by_calendar")
                 .child(calendarUid)
-                .orderByChild("userAuthLv")
+                .orderByChild("userAuthLv");
         return new FirebaseQueryLiveData<>(accessQuery);
     }
-    LiveData<CalendarMember> getByUserCalendar( String userUid,String calendarUid){
+    public LiveData<CalendarMember> getByUserCalendar( String userUid,String calendarUid){
         Query accessQuery= calendarmemberRef
                 .child("by_calendar")
                 .child(calendarUid)
-                .child(userUid)
+                .child(userUid);
         return new FirebaseQueryLiveData<>(accessQuery);
     };
-    void insert(CalendarMember calendarMember){
-        String key =calendarmemberRef
-                .child("by_user")
-                .child(calendarMember.userUid)
-                .push()
-                .getKey();
-        calendarMember.uid=key;
+    public void insert(CalendarMember calendarMember){
+        Map<String, Object> calendarMemberUpdate = new HashMap<>();
+        calendarValue.put("uid", calendar.uid);
+        calendarValue.put("ownerUser", calendar.ownerUser);
 
-        calendarmemberRef.child(key).setValue(calendarMember).addOnSuccessListener(aVoid -> {
+        calendarmemberRef.child("by_user")
+                .child(calendarMember.userUid)
+                .child(calendarMember.calendarUid)
+                .setValue(calendarMember)
+                .addOnSuccessListener(aVoid -> {
             // Write was successful!
-            Log.d(LOG_TAG, "Success insert data");
+            Log.d(LOG_TAG, "Success insert data A");
         })
                 .addOnFailureListener(e -> {
                     // Write failed
-                    Log.e(LOG_TAG, "Error insert data", e);
+                    Log.e(LOG_TAG, "Error insert data A", e);
                 });
-
+        calendarmemberRef.child(key).setValue(calendarMember).addOnSuccessListener(aVoid -> {
+            // Write was successful!
+            Log.d(LOG_TAG, "Success insert data A");
+        })
+                .addOnFailureListener(e -> {
+                    // Write failed
+                    Log.e(LOG_TAG, "Error insert data A", e);
+                });
     }
-    void delete(CalendarMember calendarMember);
-    void update(CalendarMember calendarMember);
-    void deleteAll();
     public void insert(Calendar calendar){
         String key = calendarmemberRef.push().getKey();
         calendar.uid=key;

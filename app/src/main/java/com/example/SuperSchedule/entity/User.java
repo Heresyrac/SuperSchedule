@@ -19,12 +19,19 @@ public class User {
     public String email;
     public String phone;
 
+    public User(){};
+    @NonNull
+    public String getUid() { return uid; }
+    public String getPhone() { return phone; }
+    public String getPassword() { return password; }
+    public String getName() { return name; }
+    public String getEmail() { return email; }
 
-    public User( String uid,
-                 String name,
-                 String password,
-                 String email,
-                 String phone
+    public User(String uid,
+                String name,
+                String password,
+                String email,
+                String phone
     ) {
         this.uid=uid;
         this.name=name;

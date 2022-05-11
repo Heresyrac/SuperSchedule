@@ -9,10 +9,12 @@ import androidx.lifecycle.MutableLiveData;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.lang.reflect.ParameterizedType;
+import java.util.List;
 
 public class FirebaseQueryLiveData<T> extends MutableLiveData<T> {
     private static final String LOG_TAG = "FirebaseQueryLiveData";
@@ -69,9 +71,8 @@ public class FirebaseQueryLiveData<T> extends MutableLiveData<T> {
     public class ListValueEventListener implements ValueEventListener {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
-            setValue(dataSnapshot.getValue((Class<T>)((ParameterizedType)getClass()
-                    .getGenericSuperclass())
-                    .getActualTypeArguments()[0]));
+            GenericTypeIndicator<T> t = new GenericTypeIndicator<T>() {};
+            setValue(dataSnapshot.getValue(t));
         }
 
         @Override
