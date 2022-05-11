@@ -17,22 +17,25 @@
 ## 数据模型
 
 1. Event （日程）
-    public int uid; //自动生成的uid
-    public String eventName;  //日程名
-    
-    public String time; //time->"2022-05-11-01-11"
-    
-    public int ownerCalendar; //每个Event从属于某一Calendar，ownerCalendar记录此 Calendar的uid
-    public Boolean enableAlarm; //该Calendar是否需要提醒（该功能可以砍）
 
-    public String location;  //记录该日程发生的地点（可以与Map screen 集成，也可以砍了）
+       public String uid; //自动生成的uid
+       public String eventName;  //日程名
+
+       public String time; //time->"2022-05-11-01-11"
+
+       public String ownerCalendar; //每个Event从属于某一Calendar，ownerCalendar记录此 Calendar的uid
+       public Boolean enableAlarm; //该Calendar是否需要提醒（该功能可以砍）
+
+       public String location;  //记录该日程发生的地点（可以与Map screen 集成，也可以砍了）
 
 2. Calendar（日程表）（为简化设计，群组将与Calendar一一对应，Calendar兼任群组的功能）
-    public int uid; //自动生成的uid
-    public String calendarName;  //Calendar的名称
-    public String ownerUser;  //每个Calendar有一个Owner用户，该项目记录其uid
     
-    public Boolean isShared; //用于记录该Calendar是否为共享日程表
+    
+       public String uid; //自动生成的uid
+       public String calendarName;  //Calendar的名称
+       public String ownerUser;  //每个Calendar有一个Owner用户，该项目记录其uid
+
+       public Boolean isShared; //用于记录该Calendar是否为共享日程表
 
 
 3. User（用户信息）
@@ -59,7 +62,7 @@
 
 4. CalendarMember （记录User与Calendar的对应关系）（存储Calendar的成员名单/某成员的所属Calendar表）
        
-       public int calendarUid; // Calendar uid
+       public String calendarUid; // Calendar uid
        
        public String userUid; // 成员的 uid
        
