@@ -95,18 +95,7 @@ Json树
     {
       "users":{
        
-       "uid1":{
-        
-        "user_entity":{ USER },
-        "calendar":{
-         
-         "calendaruid1":true,
-         "calendaruid2":true,
-         ...
-         
-        }
-        
-       },
+       "uid1":{USER},
        
        "uid2":{...},
        ...
@@ -114,18 +103,7 @@ Json树
       },
       "calendars":{
        
-       "uid1":{
-        "calendar_entity":{CALENDAR}
-       
-        ...
-        "member":{
-        
-         "user_uid1":0,
-         "user_uid1":1,
-         "user_uid1":2,
-         ...
-        
-        }
+       "uid1":{CALENDAR}
        
        },
        "uid2":{...},
@@ -136,14 +114,54 @@ Json树
       
        "calendar_uid1":{
        
-        "eventuid1":{
-         "event_entity":{EVENT}
-        }
+        "eventuid1":{ EVENT }
+        "eventuid2":{ EVENT }
+        "eventuid3":{ EVENT }
        
        }
       
       }
-      
+      "calendarmembers":{
+       "by_user":{
+       
+         "user_uid1":{
+          "calendarmemberuid1":{CALENDARMEMBER},
+          "calendarmemberuid2":{CALENDARMEMBER},
+          "calendarmemberuid3":{CALENDARMEMBER},
+          ...
+         },
+         "user_uid2":{
+          "calendarmemberuid1":{CALENDARMEMBER},
+          "calendarmemberuid2":{CALENDARMEMBER},
+          "calendarmemberuid3":{CALENDARMEMBER},
+          ...
+         },
+         "user_uid3":{...},
+         ...
+   
+   
+       }
+        
+        
+        }
+      "by_calendar":{
+         
+          "calendar_uid1":{
+           "calendarmemberuid1":{CALENDARMEMBER},
+           "calendarmemberuid2":{CALENDARMEMBER},
+           "calendarmemberuid3":{CALENDARMEMBER},
+           ...
+         },
+         "calendar_uid2":{
+           "calendarmemberuid1":{CALENDARMEMBER},
+           "calendarmemberuid2":{CALENDARMEMBER},
+           "calendarmemberuid3":{CALENDARMEMBER},
+           ...
+         },
+         "calendar_uid3":{...},
+         ...
+         
+        }
      
     }
    
