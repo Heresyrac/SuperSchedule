@@ -10,7 +10,33 @@
  
  因为网络功能都得连到google，所以要用这些功能都必须要翻墙才行。
 如果用的代理的话，android 虚拟机和主机是在同一个局域网里的，在Android模拟器里面，搜setting->Network&internet->internet->长按 android Wifi(未连接状态)->modify 里面设置代理就行了。ip填主机的局域网ip，端口填代理端口就行
+
+# *
+
+## ViewModel 
  
+在编写viewmodel 层的时候请使用Switchtomap方法更新LiveData[livedata](https://developer.android.google.cn/topic/libraries/architecture/livedata#transform_livedata) 
+[Switchtomap](https://developer.android.google.cn/reference/androidx/lifecycle/Transformations#switchMap(android.arch.lifecycle.LiveData%3CX%3E,%20android.arch.core.util.Function%3CX,%20android.arch.lifecycle.LiveData%3CY%3E%3E))
+
+Example：
+
+    class MyViewModel extends ViewModel {
+        private final PostalCodeRepository repository;
+        private final MutableLiveData<String> addressInput = new MutableLiveData();
+        public final LiveData<String> postalCode =
+                Transformations.switchMap(addressInput, (address) -> {
+                    return repository.getPostCode(address);
+                 });
+
+      public MyViewModel(PostalCodeRepository repository) {
+          this.repository = repository
+      }
+
+      private void setInput(String address) {
+          addressInput.setValue(address);
+      }
+    }
+
  
 # 数据
 
