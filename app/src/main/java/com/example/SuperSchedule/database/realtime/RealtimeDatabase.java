@@ -33,10 +33,10 @@ public class RealtimeDatabase {
     private RealtimeDatabase() {
         database.setPersistenceEnabled(true);
         database.getReference("scores").keepSynced(true);
-        /*eventDAO=new EventAccessor(rootRef);
+        eventDAO=new EventAccessor(rootRef);
         calendarDAO=new CalendarAccessor(rootRef);
         calendarMemberDAO=new CalendarMemberAccessor(rootRef);
-        userDAO=new UserAccessor(rootRef);*/
+        userDAO=new UserAccessor(rootRef);
     }
 
     public static RealtimeDatabase getInstance() {

@@ -104,7 +104,7 @@ public class Event {
                  boolean enableAlarm,
                  String location
                   ) {
-        this.uid="";
+        this.uid="Event-"+String.valueOf(System.currentTimeMillis());
         this.eventName=eventName;
         this.time="2000-01-01-00-00";
         setYear(year);

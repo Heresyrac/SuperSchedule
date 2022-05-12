@@ -37,7 +37,7 @@ public class Calendar {
                     String ownerUser,
                     Boolean isShared
     ) {
-        this.uid="";
+        this.uid="Calendar-"+String.valueOf(System.currentTimeMillis());
         this.calendarName=calendarName;
         this.ownerUser=ownerUser;
         this.isShared=isShared;
