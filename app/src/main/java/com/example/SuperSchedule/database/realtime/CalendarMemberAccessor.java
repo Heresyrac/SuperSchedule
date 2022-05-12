@@ -50,7 +50,7 @@ public class CalendarMemberAccessor implements CalendarMemberDAO {
         String key1=calendarMember.userUid;
         String key2=calendarMember.calendarUid;
         if(key1==null|key2==null){
-            Log.e(LOG_TAG,"Can't update calendar without uid");
+            Log.e(LOG_TAG,"Can't update calendar without userUid or calendarUid");
             return;
         }
         Map<String, Object> childUpdates = new HashMap<>();
