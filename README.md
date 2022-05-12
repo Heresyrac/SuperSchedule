@@ -407,17 +407,17 @@ Json树
       6.登出-Button
 
 
-## 群组页(8)
+## Calendar信息页(8)
 
-    1. 共享日程表名-EditView（Owner 可编辑）
+    1. 选择当前显示的Calendar-Spinner（显示 Calendar名称+[个人/共享]）（Owner 可编辑名称，放置编辑按钮）
 
-    2. 你的权限等级--Spinner（Owner ：可修改成员权限，踢出成员
+    2. 你的权限等级--TextView（Owner ：可修改成员权限，踢出成员
 
                             /Editor ：可发布编辑删除日程
 
                             /Viewer：可查看日程）
 
-    3. 生成加入链接（url？/二维码？/数字串？）-Button->弹出窗口
+    3. 生成加入链接-Button->弹出窗口（显示当前Calendar的UID）（）
 
     4. 成员表-RecyclerView
 
@@ -431,13 +431,16 @@ Json树
 
        4.2. 成员B
 
-       3. ...
+       4.3. ...
 
     5. 返回--Button->(4)
+    6. 加入--Button-->弹窗（填入Calendar的UID以加入）
+    7. 删除--Button-->删除当前的Calendar
+    8. 新建--Button-->弹窗（新建Calendar）
 
-    6. 共享位置-ToggleButton
+    9. 共享位置-ToggleButton（可删）
 
-    7. 查看成员位置--Button->(5)
+    10. 查看成员位置--Button->(5)（可删）
 
 # Functions
 ========================================================
