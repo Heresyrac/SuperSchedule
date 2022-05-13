@@ -23,7 +23,7 @@ import java.util.concurrent.Executors;
         CalendarMember.class,
         Event.class,
         User.class
-        }, version = 2, exportSchema = false)
+        }, version = 3, exportSchema = false)
 public abstract class MainDatabase extends RoomDatabase {
     public abstract CalendarDAO calendarDao();
     public abstract EventDAO eventDao();

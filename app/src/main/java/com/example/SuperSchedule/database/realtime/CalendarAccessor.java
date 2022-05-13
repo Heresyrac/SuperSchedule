@@ -47,7 +47,6 @@ public class CalendarAccessor  implements CalendarDAO {
                     // Write failed
                     Log.e(LOG_TAG, "Error insert data", e);
                 });
-
     }
     public void delete(Calendar calendar){
         String key=calendar.uid;
