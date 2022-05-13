@@ -21,10 +21,10 @@ import java.util.concurrent.Executors;
 public class RealtimeDatabase {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference rootRef = database.getReference();
-    EventDAO eventDAO;
-    CalendarDAO calendarDAO;
-    CalendarMemberDAO calendarMemberDAO;
-    UserDAO userDAO;
+    EventDAO eventDao;
+    CalendarDAO calendarDao;
+    CalendarMemberDAO calendarMemberDao;
+    UserDAO userDao;
     private static RealtimeDatabase uniqueInstance = null;
     private static final int NUMBER_OF_THREADS = 4;
     public static final ExecutorService databaseWriteExecutor =
@@ -33,10 +33,10 @@ public class RealtimeDatabase {
     private RealtimeDatabase() {
         database.setPersistenceEnabled(true);
         database.getReference("scores").keepSynced(true);
-        eventDAO=new EventAccessor(rootRef);
-        calendarDAO=new CalendarAccessor(rootRef);
-        calendarMemberDAO=new CalendarMemberAccessor(rootRef);
-        userDAO=new UserAccessor(rootRef);
+        eventDao=new EventAccessor(rootRef);
+        calendarDao=new CalendarAccessor(rootRef);
+        calendarMemberDao=new CalendarMemberAccessor(rootRef);
+        userDao=new UserAccessor(rootRef);
     }
 
     public static RealtimeDatabase getInstance() {
@@ -50,16 +50,12 @@ public class RealtimeDatabase {
         }
         return uniqueInstance;
     }
-    public EventDAO eventDAO(){
-        return eventDAO;
+    public EventDAO eventDao(){ return eventDao; }
+    public CalendarDAO calendarDao(){ return calendarDao; }
+    public CalendarMemberDAO calendarMemberDao(){
+        return calendarMemberDao;
     }
-    public CalendarDAO calendarDAO(){
-        return calendarDAO;
-    }
-    public CalendarMemberDAO calendarMemberDAO(){
-        return calendarMemberDAO;
-    }
-    public UserDAO userDAO(){
-        return userDAO;
+    public UserDAO userDao(){
+        return userDao;
     }
 }

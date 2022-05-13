@@ -25,6 +25,17 @@ public class User {
     public String phone;
 
     public User(){};
+
+    public void setEmail(String email) { this.email = email; }
+
+    public void setUid(@NonNull String uid) { this.uid = uid; }
+
+    public void setPhone(String phone) { this.phone = phone; }
+
+    public void setPassword(String password) { this.password = password; }
+
+    public void setName(String name) { this.name = name; }
+
     @NonNull
     public String getUid() { return uid; }
     public String getPhone() { return phone; }
