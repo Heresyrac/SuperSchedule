@@ -104,8 +104,10 @@ Example：
                                //0->viewer
 
                                //1->editor
-
-                               //2->owner
+                               
+                               //2->owner(remote)
+                               
+                               //3->owner(local)
 
 
 ## 存储方案
