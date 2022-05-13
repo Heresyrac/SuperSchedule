@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.blankj.utilcode.util.KeyboardUtils;
@@ -16,6 +17,7 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.example.SuperSchedule.calender.CalenderBean;
 import com.example.SuperSchedule.calender.CalenderDaoUtil;
 import com.example.SuperSchedule.databinding.ActivityCalenderBinding;
+import com.example.SuperSchedule.viewmodel.CustomerViewModel;
 import com.lxj.xpopup.XPopup;
 
 import java.util.Calendar;
@@ -36,8 +38,9 @@ public class CalenderActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-
-        model = ViewModelProviders.of(this).get(CalenderViewModel.class);
+        model=ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication())
+                .create(CalenderViewModel.class);
+        //model = ViewModelProviders.of(this).get(CalenderViewModel.class);
         String calenderId = getIntent().getStringExtra("calenderId");
         calenderBean = CalenderDaoUtil.getCalenderById(calenderId);
         if (calenderBean == null) return;

@@ -26,7 +26,8 @@ public class CalendarMember {
     @ColumnInfo(name = "user_auth_lv")
     public int userAuthLv;  //0->viewer
                             //1->editor
-                            //2->owner
+                            //2->owner(remote)
+                            //3->owner(local)
     @NonNull
     public String getCalendarUid() { return calendarUid; }
     public int getUserAuthLv() { return userAuthLv; }

@@ -8,6 +8,7 @@ import com.example.SuperSchedule.database.dao.UserDAO;
 import com.example.SuperSchedule.database.realtime.RealtimeDatabase;
 import com.example.SuperSchedule.database.room.MainDatabase;
 import com.example.SuperSchedule.entity.User;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 
@@ -20,12 +21,13 @@ public class UserRepository {
     public UserRepository(Application application){
         dbRemote = RealtimeDatabase.getInstance();
         dbLocal = MainDatabase.getInstance(application);
-
-        userDAORemote=dbRemote.userDAO();
+        userDAORemote=dbRemote.userDao();
         //userDAORemote=dbLocal.userDAO();
     }
-
-    public LiveData<User> getByUserId(String userUid) {
+    public LiveData<User> getCurrentUser(){
+        return new CurrentUserLiveData();
+    }
+    public LiveData<User> getByUserUid(String userUid) {
         return userDAORemote.findByID(userUid);
     }
     public LiveData<List<User>> getAll() {
