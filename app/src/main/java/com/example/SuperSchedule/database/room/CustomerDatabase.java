@@ -1,4 +1,4 @@
-package com.example.SuperSchedule.database;
+package com.example.SuperSchedule.database.room;
 
 import android.content.Context;
 
@@ -6,13 +6,13 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import com.example.SuperSchedule.dao.CustomerDAO;
+import com.example.SuperSchedule.database.dao.CustomerDAO;
 import com.example.SuperSchedule.entity.Customer;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Customer.class}, version = 1, exportSchema = false)
+@Database(entities = {Customer.class}, version = 3, exportSchema = false)
 public abstract class CustomerDatabase extends RoomDatabase {
     public abstract CustomerDAO customerDao();
     private static CustomerDatabase INSTANCE;

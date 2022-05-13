@@ -10,7 +10,197 @@
  
  因为网络功能都得连到google，所以要用这些功能都必须要翻墙才行。
 如果用的代理的话，android 虚拟机和主机是在同一个局域网里的，在Android模拟器里面，搜setting->Network&internet->internet->长按 android Wifi(未连接状态)->modify 里面设置代理就行了。ip填主机的局域网ip，端口填代理端口就行
+
+# *
+
+## ViewModel 
  
+在编写viewmodel 层的时候请使用Switchtomap方法更新LiveData
+
+具体说明如下：
+
+[livedata](https://developer.android.google.cn/topic/libraries/architecture/livedata#transform_livedata) 
+
+[Switchtomap](https://developer.android.google.cn/reference/androidx/lifecycle/Transformations#switchMap(android.arch.lifecycle.LiveData%3CX%3E,%20android.arch.core.util.Function%3CX,%20android.arch.lifecycle.LiveData%3CY%3E%3E))
+
+
+
+Example：
+
+    class MyViewModel extends ViewModel {
+        private final PostalCodeRepository repository;
+        private final MutableLiveData<String> addressInput = new MutableLiveData();
+        public final LiveData<String> postalCode =
+                Transformations.switchMap(addressInput, (address) -> {
+                    return repository.getPostCode(address);
+                 });
+
+      public MyViewModel(PostalCodeRepository repository) {
+          this.repository = repository
+      }
+
+      private void setInput(String address) {
+          addressInput.setValue(address);
+      }
+    }
+
+ 
+# 数据
+
+## 数据模型
+
+1. Event （日程）
+
+       public String uid; //自动生成的uid
+       public String eventName;  //日程名
+
+       public String time; //time->"2022-05-11-01-11"
+
+       public String ownerCalendar; //每个Event从属于某一Calendar，ownerCalendar记录此 Calendar的uid
+       public Boolean enableAlarm; //该Calendar是否需要提醒（该功能可以砍）
+
+       public String location;  //记录该日程发生的地点（可以与Map screen 集成，也可以砍了）
+
+2. Calendar（日程表）（为简化设计，群组将与Calendar一一对应，Calendar兼任群组的功能）
+    
+    
+       public String uid; //自动生成的uid
+       public String calendarName;  //Calendar的名称
+       public String ownerUser;  //每个Calendar有一个Owner用户，该项目记录其uid
+
+       public Boolean isShared; //用于记录该Calendar是否为共享日程表
+
+
+3. User（用户信息）
+       
+       public String uid; //Firebase Auth为用户分配固定的uid
+       
+       public String name;  //用户名
+       
+       public String password; //密码
+       
+       public String email; //邮箱
+       
+       public String phone;  //手机号
+       
+       FirebaseAuth
+       .getInstance()
+       .getCurrentUser()
+       {.getEmail()|
+        .getPhotoUrl()|//头像，暂未实现
+        .getDisplayName()|
+        .getUid()|
+        .getPhoneNumber()|
+        .}
+
+4. CalendarMember （记录User与Calendar的对应关系）（存储Calendar的成员名单/某成员的所属Calendar表）
+       
+       public String calendarUid; // Calendar uid
+       
+       public String userUid; // 成员的 uid
+       
+       public int userAuthLv;  //该 Calendar中该成员的权限等级
+
+                               //0->viewer
+
+                               //1->editor
+
+                               //2->owner
+
+
+## 存储方案
+由于项目要求使用room为recycleview提供数据(Livedata)，但事实上Firebase realtime database也具备本地数据缓存的功能。
+
+因此仅当Calendar为非共享表的时候，使用ROOM存储相关数据。同时使用Workmanager，定时将其推送到云端（反之则不自动将其下载到本地/或者设置一个按钮，直接用云端数据覆盖本地数据,以避免同步数据的麻烦）
+
+在Room中可以考虑仅存储Calendar，Event。 过滤时仅需要将当前用户的uid与Calendaruid比对
+
+同时为满足使用Workmanager的要求，定时将ROOM中数据推送到云端（反之则不自动将其下载到本地/或者设置一个按钮，直接用云端数据覆盖本地数据,以避免同步数据的麻烦）
+
+提供的数据类型与ROOM一致，Livedata/CompletableFuture。 
+
+True-> 仅通过Firebase Cloud database存储/仅读取来自于Cloud database的数据
+
+False->写入在本地的ROOM数据库，在特定时间通过Workmanager 存储于Clouddatabase/从ROOM中读取
+（对应Android RecyclerView with CardView to display data from the Room dbs (using LiveData)的要求）
+
+## Realtime database 存储模型
+
+Json树
+
+    {
+      "users":{
+       
+       "uid1":{USER},
+       
+       "uid2":{...},
+       ...
+       
+      },
+      "calendars":{
+       
+       "uid1":{CALENDAR}
+       
+       },
+       "uid2":{...},
+       ...
+      
+      },
+      "events":{
+       
+        "eventuid1":{ EVENT }
+        "eventuid2":{ EVENT }
+        "eventuid3":{ EVENT }
+      
+      }
+      "calendarmembers":{
+       "by_user":{
+       
+         "user_uid1":{
+          "calendaruid1":{CALENDARMEMBER},
+          "calendaruid2":{CALENDARMEMBER},
+          "calendaruid3":{CALENDARMEMBER},
+          ...
+         },
+         "user_uid2":{
+          "calendarruid1":{CALENDARMEMBER},
+          "calendaruid2":{CALENDARMEMBER},
+          "calendaruid3":{CALENDARMEMBER},
+          ...
+         },
+         "user_uid3":{...},
+         ...
+   
+   
+       }
+        
+        
+        }
+      "by_calendar":{
+         
+          "calendar_uid1":{
+           "calendarmemberuid1":{CALENDARMEMBER},
+           "calendarmemberuid2":{CALENDARMEMBER},
+           "calendarmemberuid3":{CALENDARMEMBER},
+           ...
+         },
+         "calendar_uid2":{
+           "calendarmemberuid1":{CALENDARMEMBER},
+           "calendarmemberuid2":{CALENDARMEMBER},
+           "calendarmemberuid3":{CALENDARMEMBER},
+           ...
+         },
+         "calendar_uid3":{...},
+         ...
+         
+        }
+     
+    }
+   
+## 提供的查询方法
+
+
+
 # Task Allocation
 
 ## Zixuan Huang
@@ -250,17 +440,17 @@
       6.登出-Button
 
 
-## 群组页(8)
+## Calendar信息页(8)
 
-    1. 共享日程表名-EditView（Owner 可编辑）
+    1. 选择当前显示的Calendar-Spinner（显示 Calendar名称+[个人/共享]）（Owner 可编辑名称，放置编辑按钮）
 
-    2. 你的权限等级--Spinner（Owner ：可修改成员权限，踢出成员
+    2. 你的权限等级--TextView（Owner ：可修改成员权限，踢出成员
 
                             /Editor ：可发布编辑删除日程
 
                             /Viewer：可查看日程）
 
-    3. 生成加入链接（url？/二维码？/数字串？）-Button->弹出窗口
+    3. 生成加入链接-Button->弹出窗口（显示当前Calendar的UID）（）
 
     4. 成员表-RecyclerView
 
@@ -274,13 +464,16 @@
 
        4.2. 成员B
 
-       3. ...
+       4.3. ...
 
     5. 返回--Button->(4)
+    6. 加入--Button-->弹窗（填入Calendar的UID以加入）
+    7. 删除--Button-->删除当前的Calendar
+    8. 新建--Button-->弹窗（新建Calendar）
 
-    6. 共享位置-ToggleButton
+    9. 共享位置-ToggleButton（可删）
 
-    7. 查看成员位置--Button->(5)
+    10. 查看成员位置--Button->(5)（可删）
 
 # Functions
 ========================================================

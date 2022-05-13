@@ -1,122 +1,49 @@
 package com.example.SuperSchedule;
 
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Menu;
 
 import com.example.SuperSchedule.databinding.ActivityMainBinding;
-import com.example.SuperSchedule.entity.Customer;
-import com.example.SuperSchedule.viewmodel.CustomerViewModel;
-import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
-import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.navigation.NavigationView;
 
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.viewbinding.ViewBinding;
 
 public class MainActivity extends AppCompatActivity {
+
+    private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
-    private CustomerViewModel customerViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
-        View view = binding.getRoot();
-        setContentView(view);
-        binding.idTextField.setPlaceholderText("This is only used for Edit");
+        setContentView(binding.getRoot());
+        setSupportActionBar(binding.toolbar);
+        mAppBarConfiguration = new AppBarConfiguration.Builder(
+                R.id.nav_home, R.id.nav_report, R.id.nav_slideshow)
+                .setDrawerLayout(binding.drawerLayout)
+                .build();
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+        NavigationUI.setupWithNavController(binding.navView, navController);
+    }
 
-        customerViewModel =
-                ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication())
-                        .create(CustomerViewModel.class);
-        customerViewModel.getAllCustomers().observe(this, new
-                Observer<List<Customer>>() {
-                    @Override
-                    public void onChanged(@Nullable final List<Customer> customers) {
-                        String allCustomers = "";
-                        for (Customer temp : customers) {
-                            String customerDetails = (temp.uid + " " + temp.firstName + " " + temp.lastName + " " + temp.salary);
-                            allCustomers = allCustomers +
-                                    System.getProperty("line.separator") + customerDetails;
-                        }
-                        binding.textViewRead.setText("All data: " + allCustomers);
-                    }
-                });
-        binding.loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //startActivity(DashboardActivity.creacteIntent(MainActivity.this);
-                startActivity(LoginActivity.createIntent(MainActivity.this));
-            } });
-        binding.addButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                String name=
-                        binding.nameTextField.getEditText().getText().toString();
-                String
-                        surname=binding.surnameTextField.getEditText().getText().toString();
-                String strSalary
-                        =binding.salaryTextField.getEditText().getText().toString();
-                if ((!name.isEmpty() && name!= null) && (!surname.isEmpty() &&
-                        strSalary!=null) && (!strSalary.isEmpty() && surname!=null)) {
-                    double salary = Double.parseDouble(strSalary);
-                    Customer customer = new Customer(name, surname, salary);
-                    customerViewModel.insert(customer);
-                    binding.textViewAdd.setText("Added Record: " + name + " " + surname + " " + salary);
-                }
-            }});
-        binding.deleteButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                customerViewModel.deleteAll();
-                binding.textViewDelete.setText("All data was deleted");
-            }
-        });
-        binding.clearButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                binding.nameTextField.getEditText().setText("");
-                binding.surnameTextField.getEditText().setText("");
-                binding.salaryTextField.getEditText().setText("");
-            }
-        });
-        binding.updateButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                String strId
-                        =binding.idTextField.getEditText().getText().toString();
-                int id=0;
-                if (!strId.isEmpty() && strId!= null)
-                    id=Integer.parseInt(strId);
-                String name=
-                        binding.nameTextField.getEditText().getText().toString();
-                String
-                        surname=binding.surnameTextField.getEditText().getText().toString();
-                String strSalary
-                        =binding.salaryTextField.getEditText().getText().toString();
-                if ((!name.isEmpty() && name!= null) && (!surname.isEmpty() &&
-                        strSalary!=null) && (!strSalary.isEmpty() && surname!=null)) {
-                    double salary = Double.parseDouble(strSalary);
-//this deals with versioning issues
-                    if (android.os.Build.VERSION.SDK_INT >=
-                            android.os.Build.VERSION_CODES.N) {
-                        CompletableFuture<Customer> customerCompletableFuture =
-                                customerViewModel.findByIDFuture(id);
-                        customerCompletableFuture.thenApply(customer -> {
-                            if (customer != null) {
-                                customer.firstName = name;
-                                customer.lastName = surname;
-                                customer.salary = salary;
-                                customerViewModel.update(customer);
-                                binding.textViewUpdate.setText("Update was successful for ID: " + customer.uid);
-                            } else {
-                                binding.textViewUpdate.setText("Id does not exist");
-                            }
-                            return customer;
-                        });
-                    }
-                }}
-        });
+
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
+                || super.onSupportNavigateUp();
     }
 }
