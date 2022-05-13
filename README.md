@@ -15,13 +15,13 @@
 
 ## ViewModel 
  
-在编写viewmodel 层的时候请使用Switchtomap方法更新LiveData
+在编写viewmodel 层的时候请使用Switchmap方法更新LiveData
 
 具体说明如下：
 
 [livedata](https://developer.android.google.cn/topic/libraries/architecture/livedata#transform_livedata) 
 
-[Switchtomap](https://developer.android.google.cn/reference/androidx/lifecycle/Transformations#switchMap(android.arch.lifecycle.LiveData%3CX%3E,%20android.arch.core.util.Function%3CX,%20android.arch.lifecycle.LiveData%3CY%3E%3E))
+[Switchmap](https://developer.android.google.cn/reference/androidx/lifecycle/Transformations#switchMap(android.arch.lifecycle.LiveData%3CX%3E,%20android.arch.core.util.Function%3CX,%20android.arch.lifecycle.LiveData%3CY%3E%3E))
 
 
 
