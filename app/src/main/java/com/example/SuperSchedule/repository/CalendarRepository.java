@@ -9,11 +9,13 @@ import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.Observer;
 
 import com.example.SuperSchedule.database.dao.CalendarDAO;
+import com.example.SuperSchedule.database.dao.CalendarMemberDAO;
 import com.example.SuperSchedule.database.dao.CustomerDAO;
 import com.example.SuperSchedule.database.realtime.RealtimeDatabase;
 import com.example.SuperSchedule.database.room.CustomerDatabase;
 import com.example.SuperSchedule.database.room.MainDatabase;
 import com.example.SuperSchedule.entity.Calendar;
+import com.example.SuperSchedule.entity.CalendarMember;
 import com.example.SuperSchedule.entity.Customer;
 import com.google.firebase.database.annotations.Nullable;
 
@@ -24,12 +26,18 @@ import java.util.function.Supplier;
 public class CalendarRepository {
     private CalendarDAO calendarDAORemote;
     private CalendarDAO calendarDAOLocal;
+    private CalendarMemberDAO calendarMemberDAORemote;
+    private CalendarMemberDAO calendarMemberDAOLocal;
+    RealtimeDatabase dbRemote;
+    MainDatabase dbLocal;
     //private LiveData<List<Customer>> allCustomers;
     public CalendarRepository(Application application){
-        RealtimeDatabase dbRemote = RealtimeDatabase.getInstance();
-        MainDatabase dbLocal = MainDatabase.getInstance(application);
+        dbRemote = RealtimeDatabase.getInstance();
+        dbLocal = MainDatabase.getInstance(application);
         calendarDAORemote =dbRemote.calendarDAO();
         calendarDAOLocal =dbLocal.calendarDao();
+        calendarMemberDAORemote=dbRemote.calendarMemberDAO();
+        //calendarMemberDAORemote=dbLocal.calendarMemberDAO();
         //allCustomers= customerDao.getAll();
     }
     // Room executes this query on a separate thread
@@ -50,11 +58,14 @@ public class CalendarRepository {
     }
 
     public void insert(final Calendar calendar){
-        RealtimeDatabase.databaseWriteExecutor.execute(new Runnable() {
+        dbRemote.databaseWriteExecutor.execute(new Runnable() {
             @Override
             public void run() {
                 if(calendar.isShared==Boolean.TRUE){
                     calendarDAORemote.insert(calendar);
+                    CalendarMember newMembership= new
+                            CalendarMember(calendar.uid,calendar.ownerUser,2);
+                    calendarMemberDAORemote.insert(newMembership);
                 }
                 else{
                     calendarDAOLocal.insert(calendar);
@@ -64,20 +75,26 @@ public class CalendarRepository {
         });
     }
     public void deleteAll(){
-        CustomerDatabase.databaseWriteExecutor.execute(new Runnable() {
+        dbRemote.databaseWriteExecutor.execute(new Runnable() {
             @Override
             public void run() {
                 calendarDAOLocal.deleteAll();
                 calendarDAORemote.deleteAll();
+                calendarMemberDAORemote.deleteAll();
             }
         });
     }
     public void delete(final Calendar calendar){
-        CustomerDatabase.databaseWriteExecutor.execute(new Runnable() {
+        dbRemote.databaseWriteExecutor.execute(new Runnable() {
             @Override
             public void run() {
                 if(calendar.isShared==Boolean.TRUE){
                     calendarDAORemote.delete(calendar);
+                    /*
+                    Workmanager->delete useless membership
+
+
+                    */
                 }
                 else{
                     calendarDAOLocal.delete(calendar);
@@ -87,11 +104,14 @@ public class CalendarRepository {
         });
     }
     public void update(final Calendar calendar){
-        CustomerDatabase.databaseWriteExecutor.execute(new Runnable() {
+        dbRemote.databaseWriteExecutor.execute(new Runnable() {
             @Override
             public void run() {
                 if(calendar.isShared==Boolean.TRUE){
                     calendarDAORemote.update(calendar);
+                    CalendarMember newMembership= new
+                            CalendarMember(calendar.uid,calendar.ownerUser,2);
+                    calendarMemberDAORemote.insert(newMembership);
                 }
                 else{
                     calendarDAOLocal.update(calendar);
