@@ -25,11 +25,11 @@ public class EventAccessor implements EventDAO {
         this.eventRef =rootRef.child("events");
     }
 
-    public LiveData<Event> getByEventId(String calendarUid,String eventUid){
+    public LiveData<Event> getByEventUid(String calendarUid,String eventUid){
         Query accessQuery=eventRef.child(calendarUid).child(eventUid);
         return new FirebaseQueryLiveData<>(accessQuery);
     };
-    public LiveData<List<Event>> getByCalendarId(String calendarUid){
+    public LiveData<List<Event>> getByCalendarUid(String calendarUid){
         Query accessQuery=eventRef.child("calendarUid").orderByChild("time");
         return new FirebaseQueryLiveData<>(accessQuery);
     };

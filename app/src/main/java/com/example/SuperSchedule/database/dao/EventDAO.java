@@ -18,11 +18,11 @@ public interface EventDAO {
     @Query("SELECT * FROM event WHERE rowid= :eventUid " +
             "AND owner_calendar= :calendarUid" +
             " ORDER BY time ASC LIMIT 1")
-    LiveData<Event> getByEventId(String calendarUid,String eventUid);
+    LiveData<Event> getByEventUid(String calendarUid,String eventUid);
 
     @Query("SELECT * FROM event WHERE owner_calendar= :calendarUid " +
             "ORDER BY time ASC")
-    LiveData<List<Event>> getByCalendarId(String calendarUid);
+    LiveData<List<Event>> getByCalendarUid(String calendarUid);
 
 
     @Query("SELECT * FROM event WHERE rowid= :calendarUid AND " +
