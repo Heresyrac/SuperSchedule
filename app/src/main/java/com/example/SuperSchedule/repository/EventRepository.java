@@ -24,7 +24,7 @@ public class EventRepository {
     public EventRepository(Application application){
         dbRemote = RealtimeDatabase.getInstance();
         dbLocal = MainDatabase.getInstance(application);
-        eventDAORemote =dbRemote.eventDAO();
+        eventDAORemote =dbRemote.eventDao();
         eventDAOLocal =dbLocal.eventDao();
         //allCustomers= customerDao.getAll();
     }
@@ -38,6 +38,20 @@ public class EventRepository {
     public LiveData<List<Event>> getByCalendarUid(String calendarUid) {
         LiveData<List<Event>> liveData1=eventDAOLocal.getByCalendarUid(calendarUid);
         LiveData<List<Event>> liveData2=eventDAORemote.getByCalendarUid(calendarUid);
+        return merge(liveData1,liveData2);
+    }
+    public LiveData<List<Event>> getBetweenTime(String calendarUid,
+            /*time->YYYY-MM-DD-hh-mm*/String time1,String time2) {
+        LiveData<List<Event>> liveData1=eventDAOLocal.getBetweenTime(calendarUid,time1,time2);
+        LiveData<List<Event>> liveData2=eventDAORemote.getBetweenTime(calendarUid,time1,time2);
+        return merge(liveData1,liveData2);
+    }
+    public LiveData<List<Event>> getBetweenDay(String calendarUid,String time1,String time2) {
+        /*time->YYYY-MM-DD*/
+        LiveData<List<Event>> liveData1=eventDAOLocal.getBetweenTime(calendarUid,
+                time1+"-00-00",time2+"-24-00");
+        LiveData<List<Event>> liveData2=eventDAORemote.getBetweenTime(calendarUid,
+                time1+"-00-00",time2+"-24-00");
         return merge(liveData1,liveData2);
     }
 

@@ -1,5 +1,7 @@
 package com.example.SuperSchedule.calender;
 
+import com.example.SuperSchedule.entity.Event;
+
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
@@ -88,6 +90,21 @@ public class CalenderBean {
     }
     public void setCreateTime(String createTime) {
         this.createTime = createTime;
+    }
+    public Event to_Event(){
+        Event event=new Event();
+        event.setEventName(this.title);
+        event.setOwnerCalendarUid(this.group);
+        event.setIsShared(true);//need update
+        event.setEnableAlarm(this.getRemind());
+        event.setLocation(this.getAddress());
+        event.setUid(this.id);
+        event.setYear(Integer.parseInt(this.day.split("[^0-9]")[0]));
+        event.setMonth(Integer.parseInt(this.day.split("[^0-9]")[1]));
+        event.setDay(Integer.parseInt(this.day.split("[^0-9]")[2]));
+        event.setHour(Integer.parseInt(this.time.split("[^0-9]")[0]));
+        event.setMinute(Integer.parseInt(this.time.split("[^0-9]")[1]));
+        return event;
     }
     
 

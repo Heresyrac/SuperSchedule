@@ -19,24 +19,24 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class RealtimeDatabase {
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference rootRef = database.getReference();
-    EventDAO eventDAO;
-    CalendarDAO calendarDAO;
-    CalendarMemberDAO calendarMemberDAO;
-    UserDAO userDAO;
+    static FirebaseDatabase database;
+    static DatabaseReference rootRef;
+    EventDAO eventDao;
+    CalendarDAO calendarDao;
+    CalendarMemberDAO calendarMemberDao;
+    UserDAO userDao;
     private static RealtimeDatabase uniqueInstance = null;
     private static final int NUMBER_OF_THREADS = 4;
     public static final ExecutorService databaseWriteExecutor =
             Executors.newFixedThreadPool(NUMBER_OF_THREADS);
     //private Object holdedShareContent = null;
     private RealtimeDatabase() {
-        database.setPersistenceEnabled(true);
-        database.getReference("scores").keepSynced(true);
-        eventDAO=new EventAccessor(rootRef);
-        calendarDAO=new CalendarAccessor(rootRef);
-        calendarMemberDAO=new CalendarMemberAccessor(rootRef);
-        userDAO=new UserAccessor(rootRef);
+
+        //database.getReference("scores").keepSynced(true);
+        eventDao=new EventAccessor(rootRef);
+        calendarDao=new CalendarAccessor(rootRef);
+        calendarMemberDao=new CalendarMemberAccessor(rootRef);
+        userDao=new UserAccessor(rootRef);
     }
 
     public static RealtimeDatabase getInstance() {
@@ -44,22 +44,23 @@ public class RealtimeDatabase {
         synchronized (obj) {
             if (uniqueInstance == null) {
                 synchronized (obj) {
+                    database = FirebaseDatabase
+                            .getInstance("https://assignment-calendar-98dde-default-rtdb.asia-southeast1.firebasedatabase.app/");
+                    //database.setPersistenceEnabled(true);
+                    rootRef = database.getReference("Remote");
                     uniqueInstance = new RealtimeDatabase();
+
                 }
             }
         }
         return uniqueInstance;
     }
-    public EventDAO eventDAO(){
-        return eventDAO;
+    public EventDAO eventDao(){ return eventDao; }
+    public CalendarDAO calendarDao(){ return calendarDao; }
+    public CalendarMemberDAO calendarMemberDao(){
+        return calendarMemberDao;
     }
-    public CalendarDAO calendarDAO(){
-        return calendarDAO;
-    }
-    public CalendarMemberDAO calendarMemberDAO(){
-        return calendarMemberDAO;
-    }
-    public UserDAO userDAO(){
-        return userDAO;
+    public UserDAO userDao(){
+        return userDao;
     }
 }

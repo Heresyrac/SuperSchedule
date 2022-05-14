@@ -24,6 +24,19 @@
         </activity>
         <activity android:name=".DashboardActivity" />
         <activity android:name=".LoginActivity" />
+        <activity android:name="com.example.SuperSchedule.LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity android:name="com.example.SuperSchedule.HomeActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".CalenderActivity"
+            android:label="日程表"/>
     </application>
 
 </manifest>

@@ -2,14 +2,13 @@ package com.example.SuperSchedule.database.realtime;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
-import androidx.room.Delete;
-import androidx.room.Insert;
-import androidx.room.Update;
 
 import com.example.SuperSchedule.database.dao.CalendarMemberDAO;
-import com.example.SuperSchedule.entity.Calendar;
 import com.example.SuperSchedule.entity.CalendarMember;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 
@@ -20,27 +19,27 @@ import java.util.Map;
 public class CalendarMemberAccessor implements CalendarMemberDAO {
     private static final String LOG_TAG = "RealtimeCalMember";
     DatabaseReference rootRef;
-    DatabaseReference calendarmemberRef;
+    DatabaseReference calendarMemberRef;
     public CalendarMemberAccessor(DatabaseReference rootRef){
         this.rootRef=rootRef;
-        this.calendarmemberRef =rootRef.child("calendarmembers");
+        this.calendarMemberRef =rootRef.child("calendarmembers");
     }
-    public LiveData<List<CalendarMember>> getByUserId(String userUid){
-        Query accessQuery= calendarmemberRef
+    public LiveData<List<CalendarMember>> getByUserUid(String userUid){
+        Query accessQuery= calendarMemberRef
                 .child("by_user")
                 .child(userUid)
                 .orderByChild("userAuthLv");
         return new FirebaseQueryLiveData<>(accessQuery);
     }
-    public LiveData<List<CalendarMember>> getByCalendarId(String calendarUid){
-        Query accessQuery= calendarmemberRef
+    public LiveData<List<CalendarMember>> getByCalendarUid(String calendarUid){
+        Query accessQuery= calendarMemberRef
                 .child("by_calendar")
                 .child(calendarUid)
                 .orderByChild("userAuthLv");
         return new FirebaseQueryLiveData<>(accessQuery);
     }
     public LiveData<CalendarMember> getByUserCalendar( String userUid,String calendarUid){
-        Query accessQuery= calendarmemberRef
+        Query accessQuery= calendarMemberRef
                 .child("by_calendar")
                 .child(calendarUid)
                 .child(userUid);
@@ -61,14 +60,16 @@ public class CalendarMemberAccessor implements CalendarMemberDAO {
                 calendarMember.calendarUid+"/"+
                 calendarMember.userUid,calendarMember.toMap());
 
-        calendarmemberRef.updateChildren(childUpdates).addOnSuccessListener(aVoid -> {
-            // Write was successful!
-            Log.d(LOG_TAG, "Success insert data");
-        })
-                .addOnFailureListener(e -> {
-                    // Write failed
-                    Log.e(LOG_TAG, "Error insert data", e);
-                });
+        calendarMemberRef.updateChildren(childUpdates).addOnCompleteListener(new OnCompleteListener< Void >() {
+            @Override
+            public void onComplete(@NonNull Task< Void > task) {
+                if (task.isSuccessful()) {
+                    Log.d(LOG_TAG, "****Success update data");
+                } else {
+                    Log.e(LOG_TAG, "****Error update data", task.getException());
+                }
+            }
+        });
 
     }
 
@@ -81,14 +82,16 @@ public class CalendarMemberAccessor implements CalendarMemberDAO {
                 calendarMember.calendarUid+"/"+
                 calendarMember.userUid,null);
 
-        calendarmemberRef.updateChildren(childUpdates).addOnSuccessListener(aVoid -> {
-            // Write was successful!
-            Log.d(LOG_TAG, "Success insert data");
-        })
-                .addOnFailureListener(e -> {
-                    // Write failed
-                    Log.e(LOG_TAG, "Error insert data", e);
-                });;
+        calendarMemberRef.updateChildren(childUpdates).addOnCompleteListener(new OnCompleteListener< Void >() {
+            @Override
+            public void onComplete(@NonNull Task< Void > task) {
+                if (task.isSuccessful()) {
+                    Log.d(LOG_TAG, "****Success delete data");
+                } else {
+                    Log.e(LOG_TAG, "****Error delete data", task.getException());
+                }
+            }
+        });
 
     }
 
@@ -100,14 +103,16 @@ public class CalendarMemberAccessor implements CalendarMemberDAO {
         childUpdates.put("/by_user",null);
         childUpdates.put("/by_calendar",null);
 
-        calendarmemberRef.updateChildren(childUpdates).addOnSuccessListener(aVoid -> {
-            // Write was successful!
-            Log.d(LOG_TAG, "Success insert data");
-        })
-                .addOnFailureListener(e -> {
-                    // Write failed
-                    Log.e(LOG_TAG, "Error insert data", e);
-                });;
+        calendarMemberRef.updateChildren(childUpdates).addOnCompleteListener(new OnCompleteListener< Void >() {
+            @Override
+            public void onComplete(@NonNull Task< Void > task) {
+                if (task.isSuccessful()) {
+                    Log.d(LOG_TAG, "****Success deleteall data");
+                } else {
+                    Log.e(LOG_TAG, "****Error deleteall data", task.getException());
+                }
+            }
+        });
     }
 
 }

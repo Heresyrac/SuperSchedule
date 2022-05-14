@@ -2,6 +2,7 @@ package com.example.SuperSchedule.database.realtime;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -9,6 +10,8 @@ import androidx.room.Update;
 
 import com.example.SuperSchedule.database.dao.UserDAO;
 import com.example.SuperSchedule.entity.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 
@@ -42,14 +45,16 @@ public  class UserAccessor implements UserDAO {
             Log.e(LOG_TAG,"Can't insert user without (generated) uid");
             return;
         }
-        userRef.child(key).setValue(user).addOnSuccessListener(aVoid -> {
-            // Write was successful!
-            Log.d(LOG_TAG, "Success insert data");
-        })
-                .addOnFailureListener(e -> {
-                    // Write failed
-                    Log.e(LOG_TAG, "Error insert data", e);
-                });
+        userRef.child(key).setValue(user).addOnCompleteListener(new OnCompleteListener< Void >() {
+            @Override
+            public void onComplete(@NonNull Task< Void > task) {
+                if (task.isSuccessful()) {
+                    Log.d(LOG_TAG, "****Success insert data");
+                } else {
+                    Log.e(LOG_TAG, "****Error insert data", task.getException());
+                }
+            }
+        });
 
     }
 
@@ -59,14 +64,16 @@ public  class UserAccessor implements UserDAO {
             Log.e(LOG_TAG,"Can't delete user without (generated) uid");
             return;
         }
-        userRef.child(key).setValue(null).addOnSuccessListener(aVoid -> {
-            // Write was successful!
-            Log.d(LOG_TAG, "Success delete data");
-        })
-                .addOnFailureListener(e -> {
-                    // Write failed
-                    Log.e(LOG_TAG, "Error delete data", e);
-                });
+        userRef.child(key).setValue(null).addOnCompleteListener(new OnCompleteListener< Void >() {
+            @Override
+            public void onComplete(@NonNull Task< Void > task) {
+                if (task.isSuccessful()) {
+                    Log.d(LOG_TAG, "****Success delete data");
+                } else {
+                    Log.e(LOG_TAG, "****Error delete data", task.getException());
+                }
+            }
+        });
     }
 
     public void update(User user){

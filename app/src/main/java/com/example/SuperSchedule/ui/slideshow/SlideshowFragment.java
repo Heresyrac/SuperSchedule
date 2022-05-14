@@ -17,7 +17,7 @@ import com.example.SuperSchedule.calender.CalenderBean;
 import com.example.SuperSchedule.calender.CalenderDaoUtil;
 import com.example.SuperSchedule.databinding.FragmentSlideshowBinding;
 import com.example.SuperSchedule.ui.CalendarAddPup;
-import com.example.SuperSchedule.ui.calender.CalenderActivity;
+import com.example.SuperSchedule.CalenderActivity;
 import com.example.SuperSchedule.utils.LinearLayoutSpaceItemDecoration;
 import com.lxj.xpopup.XPopup;
 import com.necer.calendar.BaseCalendar;

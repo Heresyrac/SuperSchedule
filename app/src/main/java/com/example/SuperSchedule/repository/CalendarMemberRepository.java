@@ -25,24 +25,32 @@ public class CalendarMemberRepository {
         dbRemote = dbRemote.getInstance();
         dbLocal = MainDatabase.getInstance(application);
 
-        calendarMemberDAORemote=dbRemote.calendarMemberDAO();
-        //calendarMemberDAORemote=dbLocal.calendarMemberDAO();
-    }
-    public LiveData<List<CalendarMember>> getByCalendarUid(String calendarUid) {
-        return calendarMemberDAORemote.getByCalendarId(calendarUid);
-    }
-    public LiveData<List<CalendarMember>> getByUserUid(String userUid) {
-        return calendarMemberDAORemote.getByUserId(userUid);
-    }
-    public LiveData<CalendarMember> getByUserCalendar(String userUid,String calendarUid) {
-        return calendarMemberDAORemote.getByUserCalendar(userUid,calendarUid);
+        calendarMemberDAORemote=dbRemote.calendarMemberDao();
+        calendarMemberDAORemote=dbLocal.calendarMemberDao();
     }
 
-    public void insert(final CalendarMember calendarMember){
+    public LiveData<List<CalendarMember>> getByCalendarUid(String calendarUid) {
+        LiveData< List<CalendarMember>> liveData1=calendarMemberDAOLocal.getByCalendarUid(calendarUid);
+        LiveData< List<CalendarMember>> liveData2=calendarMemberDAORemote.getByCalendarUid(calendarUid);
+        return merge(liveData1,liveData2);
+    }
+    public LiveData<List< CalendarMember>> getByUserUid(String userUid) {
+        LiveData<List< CalendarMember>> liveData1=calendarMemberDAOLocal.getByUserUid(userUid);
+        LiveData<List< CalendarMember>> liveData2=calendarMemberDAORemote.getByUserUid(userUid);
+        return merge(liveData1,liveData2);
+    }
+
+    public void insert(final  CalendarMember calendarMember){
         dbRemote.databaseWriteExecutor.execute(new Runnable() {
             @Override
             public void run() {
-                calendarMemberDAORemote.insert(calendarMember);
+                if(calendarMember.userAuthLv!=3){
+                    calendarMemberDAORemote.insert(calendarMember);
+                }
+                else{
+                    calendarMemberDAOLocal.insert(calendarMember);
+                }
+
             }
         });
     }
@@ -50,6 +58,7 @@ public class CalendarMemberRepository {
         dbRemote.databaseWriteExecutor.execute(new Runnable() {
             @Override
             public void run() {
+                calendarMemberDAOLocal.deleteAll();
                 calendarMemberDAORemote.deleteAll();
             }
         });
@@ -58,16 +67,75 @@ public class CalendarMemberRepository {
         dbRemote.databaseWriteExecutor.execute(new Runnable() {
             @Override
             public void run() {
-                calendarMemberDAORemote.delete(calendarMember);
+                if(calendarMember.userAuthLv!=3){
+                    calendarMemberDAORemote.delete(calendarMember);
+                    /*
+                    Workmanager->delete useless membership
+
+
+                    */
+                }
+                else{
+                    calendarMemberDAOLocal.delete(calendarMember);
+                }
+
             }
         });
     }
-    public void update(final CalendarMember calendarMember){
+    public void update(final  CalendarMember calendarMember){
         dbRemote.databaseWriteExecutor.execute(new Runnable() {
             @Override
             public void run() {
-                calendarMemberDAORemote.update(calendarMember);
+                if(calendarMember.userAuthLv!=3){
+                    calendarMemberDAORemote.update(calendarMember);
+                }
+                else{
+                    calendarMemberDAOLocal.update(calendarMember);
+                }
             }
         });
     }
+    private MediatorLiveData<List<CalendarMember>> merge( LiveData<List<CalendarMember>> liveData1,
+                                                    LiveData<List<CalendarMember>> liveData2){
+        MediatorLiveData<List<CalendarMember>> mergeLiveData=new MediatorLiveData<>();
+        mergeLiveData.addSource(liveData1, new Observer<List<CalendarMember>>() {
+            @Override
+            public void onChanged(List<CalendarMember> l) {
+                List<CalendarMember> tempData=liveData1.getValue();
+                tempData.addAll(liveData2.getValue());
+                mergeLiveData.setValue(tempData);
+            }
+        });
+        mergeLiveData.addSource(liveData2, new Observer<List<CalendarMember>>() {
+            @Override
+            public void onChanged(List<CalendarMember> l) {
+                List<CalendarMember> tempData=liveData1.getValue();
+                tempData.addAll(liveData2.getValue());
+                mergeLiveData.setValue(tempData);
+            }
+        });
+        return mergeLiveData;
+    }
+    private MediatorLiveData<CalendarMember> merge1( LiveData<CalendarMember> liveData1,
+                                               LiveData<CalendarMember> liveData2){
+        MediatorLiveData<CalendarMember> mergeLiveData=new MediatorLiveData<>();
+        mergeLiveData.addSource(liveData1, new Observer<CalendarMember>() {
+            @Override
+            public void onChanged(CalendarMember calendarMember) {
+                if(calendarMember!=null){
+                    mergeLiveData.setValue(calendarMember);
+                }
+            }
+        });
+        mergeLiveData.addSource(liveData2, new Observer<CalendarMember>() {
+            @Override
+            public void onChanged(CalendarMember calendarMember) {
+                if(calendarMember!=null){
+                    mergeLiveData.setValue(calendarMember);
+                }
+            }
+        });
+        return mergeLiveData;
+    }
+
 }

@@ -1,4 +1,4 @@
-package com.example.SuperSchedule.ui.calender;
+package com.example.SuperSchedule;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -8,7 +8,7 @@ import android.view.MenuItem;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.TimeUtils;
@@ -16,6 +16,7 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.example.SuperSchedule.calender.CalenderBean;
 import com.example.SuperSchedule.calender.CalenderDaoUtil;
 import com.example.SuperSchedule.databinding.ActivityCalenderBinding;
+import com.example.SuperSchedule.viewmodel.CalenderViewModel;
 import com.lxj.xpopup.XPopup;
 
 import java.util.Calendar;
@@ -36,8 +37,9 @@ public class CalenderActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-
-        model = ViewModelProviders.of(this).get(CalenderViewModel.class);
+        model=ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication())
+                .create(CalenderViewModel.class);
+        //model = ViewModelProviders.of(this).get(CalenderViewModel.class);
         String calenderId = getIntent().getStringExtra("calenderId");
         calenderBean = CalenderDaoUtil.getCalenderById(calenderId);
         if (calenderBean == null) return;
@@ -58,7 +60,7 @@ public class CalenderActivity extends AppCompatActivity {
                     (view, year, month, dayOfMonth) -> {
                         String mothStr = (month + 1) > 9 ? (month + 1) + "" : "0" + (month + 1);
                         String dayStr = dayOfMonth > 9 ? dayOfMonth + "" : "0" + dayOfMonth;
-                        String data = year + "年" + mothStr + "月" + dayStr+"日";
+                        String data = year + "-" + mothStr + "-" + dayStr+"";
                         binding.calenderDate.setText(data);
                     }, mYear, mMonth, mDay).show();
         });
@@ -105,6 +107,7 @@ public class CalenderActivity extends AppCompatActivity {
             calenderBean.setRemind(binding.calenderRemind.isChecked());
             calenderBean.setCreateTime(TimeUtils.getNowString());
             if (CalenderDaoUtil.update(calenderBean)) {
+                model.updateEvent(calenderBean.to_Event());
                 ToastUtils.showShort("save successfully");
                 setResult(RESULT_OK);
                 finish();

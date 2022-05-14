@@ -2,6 +2,7 @@ package com.example.SuperSchedule.database.realtime;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -9,6 +10,8 @@ import androidx.room.Update;
 
 import com.example.SuperSchedule.database.dao.EventDAO;
 import com.example.SuperSchedule.entity.Event;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 
@@ -49,14 +52,16 @@ public class EventAccessor implements EventDAO {
         }
         String key =eventRef.push().getKey();
         event.uid=key;
-        eventRef.child(owner).child(key).setValue(event).addOnSuccessListener(aVoid -> {
-            // Write was successful!
-            Log.d(LOG_TAG, "Success insert data");
-        })
-                .addOnFailureListener(e -> {
-                    // Write failed
-                    Log.e(LOG_TAG, "Error insert data", e);
-                });
+        eventRef.child(owner).child(key).setValue(event).addOnCompleteListener(new OnCompleteListener< Void >() {
+            @Override
+            public void onComplete(@NonNull Task< Void > task) {
+                if (task.isSuccessful()) {
+                    Log.d(LOG_TAG, "****Success insert data");
+                } else {
+                    Log.e(LOG_TAG, "****Error insert data", task.getException());
+                }
+            }
+        });
     }
 
     public void delete(Event event){
@@ -71,14 +76,16 @@ public class EventAccessor implements EventDAO {
             return;
         }
 
-        eventRef.child(owner).child(key).setValue(null).addOnSuccessListener(aVoid -> {
-            // Write was successful!
-            Log.d(LOG_TAG, "Success insert data");
-        })
-                .addOnFailureListener(e -> {
-                    // Write failed
-                    Log.e(LOG_TAG, "Error insert data", e);
-                });
+        eventRef.child(owner).child(key).setValue(null).addOnCompleteListener(new OnCompleteListener< Void >() {
+            @Override
+            public void onComplete(@NonNull Task< Void > task) {
+                if (task.isSuccessful()) {
+                    Log.d(LOG_TAG, "****Success insert data");
+                } else {
+                    Log.e(LOG_TAG, "****Error insert data", task.getException());
+                }
+            }
+        });
     }
 
     public void update(Event event){
@@ -92,14 +99,16 @@ public class EventAccessor implements EventDAO {
             Log.e(LOG_TAG,"Can't update event without uid");
             return;
         }
-        eventRef.child(owner).child(key).setValue(event).addOnSuccessListener(aVoid -> {
-            // Write was successful!
-            Log.d(LOG_TAG, "Success insert data");
-        })
-                .addOnFailureListener(e -> {
-                    // Write failed
-                    Log.e(LOG_TAG, "Error insert data", e);
-                });
+        eventRef.child(owner).child(key).setValue(event).addOnCompleteListener(new OnCompleteListener< Void >() {
+            @Override
+            public void onComplete(@NonNull Task< Void > task) {
+                if (task.isSuccessful()) {
+                    Log.d(LOG_TAG, "****Success update data");
+                } else {
+                    Log.e(LOG_TAG, "****Error update data", task.getException());
+                }
+            }
+        });
     }
 
 

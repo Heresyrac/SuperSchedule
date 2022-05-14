@@ -34,10 +34,10 @@ public class CalendarRepository {
     public CalendarRepository(Application application){
         dbRemote = RealtimeDatabase.getInstance();
         dbLocal = MainDatabase.getInstance(application);
-        calendarDAORemote =dbRemote.calendarDAO();
+        calendarDAORemote =dbRemote.calendarDao();
         calendarDAOLocal =dbLocal.calendarDao();
-        calendarMemberDAORemote=dbRemote.calendarMemberDAO();
-        //calendarMemberDAORemote=dbLocal.calendarMemberDAO();
+        calendarMemberDAORemote=dbRemote.calendarMemberDao();
+        calendarMemberDAOLocal=dbLocal.calendarMemberDao();
         //allCustomers= customerDao.getAll();
     }
     // Room executes this query on a separate thread
@@ -115,6 +115,9 @@ public class CalendarRepository {
                 }
                 else{
                     calendarDAOLocal.update(calendar);
+                    CalendarMember newMembership= new
+                            CalendarMember(calendar.uid,calendar.ownerUser,3);
+                    calendarMemberDAORemote.insert(newMembership);
                 }
             }
         });
