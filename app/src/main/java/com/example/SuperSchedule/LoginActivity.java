@@ -170,7 +170,7 @@ public class LoginActivity extends AppCompatActivity {
             Log.e("LoginActivity", "Sign-in error: ", response.getError());
         }
     }
-    private void showSnackbar(@StringRes int errorMessageRes) {
+    public void showSnackbar(@StringRes int errorMessageRes) {
         Snackbar.make(binding.getRoot(), errorMessageRes, Snackbar.LENGTH_LONG).show();
     }
     public void signIn_Out() {
