@@ -2,13 +2,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/material_green_300"
     android:orientation="vertical">
+
     <CalendarView
         android:id="@+id/calendarView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/material_green_300" />
+        android:layout_height="wrap_content" />
 
     <View
         android:layout_width="match_parent"
@@ -25,16 +24,15 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/dashboard_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/material_green_300"
                 android:text="location                   " />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:background="@color/material_green_300"
                 android:text="temperature                  " />
             <TextView
                 android:layout_width="wrap_content"
@@ -43,7 +41,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/material_green_300"
                 android:text="weather"/>
             <ImageView
                 android:layout_width="wrap_content"
