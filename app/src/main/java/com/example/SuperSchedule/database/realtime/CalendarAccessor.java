@@ -7,8 +7,10 @@ import androidx.lifecycle.LiveData;
 
 import com.example.SuperSchedule.database.dao.CalendarDAO;
 import com.example.SuperSchedule.entity.Calendar;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 
@@ -39,14 +41,16 @@ public class CalendarAccessor  implements CalendarDAO {
     public void insert(Calendar calendar){
         String key =calendarRef.push().getKey();
         calendar.uid=key;
-        calendarRef.child(key).setValue(calendar).addOnSuccessListener(aVoid -> {
-            // Write was successful!
-            Log.d(LOG_TAG, "Success insert data");
-        })
-                .addOnFailureListener(e -> {
-                    // Write failed
-                    Log.e(LOG_TAG, "Error insert data", e);
-                });
+        calendarRef.child(key).setValue(calendar).addOnCompleteListener(new OnCompleteListener< Void >() {
+            @Override
+            public void onComplete(@NonNull Task< Void > task) {
+                if (task.isSuccessful()) {
+                    Log.d(LOG_TAG, "****Success insert data");
+                } else {
+                    Log.e(LOG_TAG, "****Error insert data", task.getException());
+                }
+            }
+        });
     }
     public void delete(Calendar calendar){
         String key=calendar.uid;
@@ -54,14 +58,16 @@ public class CalendarAccessor  implements CalendarDAO {
             Log.e(LOG_TAG,"Can't delete calendar without uid");
             return;
         }
-        calendarRef.child(key).setValue(null).addOnSuccessListener(aVoid -> {
-            // Write was successful!
-            Log.d(LOG_TAG, "Success delete data");
-        })
-                .addOnFailureListener(e -> {
-                    // Write failed
-                    Log.e(LOG_TAG, "Error delete data", e);
-                });
+        calendarRef.child(key).setValue(null).addOnCompleteListener(new OnCompleteListener< Void >() {
+            @Override
+            public void onComplete(@NonNull Task< Void > task) {
+                if (task.isSuccessful()) {
+                    Log.d(LOG_TAG, "****Success delete data");
+                } else {
+                    Log.e(LOG_TAG, "****Error delete data", task.getException());
+                }
+            }
+        });
 
     }
 
@@ -76,24 +82,27 @@ public class CalendarAccessor  implements CalendarDAO {
 
 
 
-        calendarRef.child(key).updateChildren(calendarValue).addOnSuccessListener(aVoid -> {
-            // Write was successful!
-            Log.d(LOG_TAG, "Success update data");
-        })
-                .addOnFailureListener(e -> {
-                    // Write failed
-                    Log.e(LOG_TAG, "Error delete data", e);
-                });
+        calendarRef.child(key).updateChildren(calendarValue).addOnCompleteListener(new OnCompleteListener< Void >() {
+            @Override
+            public void onComplete(@NonNull Task< Void > task) {
+                if (task.isSuccessful()) {
+                    Log.d(LOG_TAG, "****Success update data");
+                } else {
+                    Log.e(LOG_TAG, "****Error update data", task.getException());
+                }
+            }
+        });
     }
-    public void deleteAll(){
-        calendarRef.setValue(null).addOnSuccessListener(aVoid -> {
-            // Write was successful!
-            Log.d(LOG_TAG, "Success delete all data");
-        })
-                .addOnFailureListener(e -> {
-                    // Write failed
-                    Log.e(LOG_TAG, "Error delete delete data", e);
-                });
+    public void deleteAll() {
+        calendarRef.setValue(null).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Log.d(LOG_TAG, "****Success delete data");
+                } else {
+                    Log.e(LOG_TAG, "****Error delete all data", task.getException());
+                }
+            }
+        });
     }
-
 }

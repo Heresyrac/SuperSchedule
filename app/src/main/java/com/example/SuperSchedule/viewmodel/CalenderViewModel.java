@@ -1,4 +1,4 @@
-package com.example.SuperSchedule.ui.calender;
+package com.example.SuperSchedule.viewmodel;
 
 import android.app.Application;
 
@@ -118,13 +118,14 @@ public class CalenderViewModel extends AndroidViewModel {
         java.util.Calendar c = java.util.Calendar.getInstance();
         c.set(year,month,day);
         selectedTime.setValue(format.format(c.getTime()));
-        curEventIndex.setValue(0);
     }
-    public void setCurCalendarIndex(int i){
-        curCalendarIndex.setValue(i);
-        selectedTime.setValue(format.format(System.currentTimeMillis()));
-        curEventIndex.setValue(0);
-    }
+    public void setCurCalendarIndex(int i){ curCalendarIndex.setValue(i); }
+    public void insertEvent(Event event){ eventRepository.insert(event); }
+    public void updateEvent(Event event){ eventRepository.update(event); }
+    public void deleteEvent(Event event){ eventRepository.delete(event); }
+    public void insertCalendar(Calendar calendar){ calendarRepository.insert(calendar); }
+    public void updateCalendar(Calendar calendar){ calendarRepository.update(calendar); }
+    public void deleteEvent(Calendar calendar){ calendarRepository.delete(calendar); }
     public LiveData<User> getCurUser() { return curUser; }
     public LiveData<List<Event>> getTodayEventList() { return todayEventList; }
     public MutableLiveData<String> getSelectedTime() { return selectedTime; }

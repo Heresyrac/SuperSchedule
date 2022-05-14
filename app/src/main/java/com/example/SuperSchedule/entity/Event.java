@@ -44,7 +44,7 @@ public class Event {
 
 
     private int getTime(int part){
-        String s=time.split("-")[part];
+        String s=time.split("[^0-9]")[part];
         return valueOf(s);
     }
     public String getUid() { return uid; }
@@ -57,11 +57,12 @@ public class Event {
     @NonNull
     public String getEventName() { return eventName; }
 
+    /*
     public int getYear(){return getTime(0);}
     public int getMonth(){return getTime(1);}
     public int getDay(){return getTime(2);}
     public int getHour(){return getTime(3);}
-    public int getMinute(){return getTime(4);}
+    public int getMinute(){return getTime(4);}*/
 
     public void setUid(@NonNull String uid) { this.uid = uid; }
 
@@ -69,15 +70,20 @@ public class Event {
         String str="0000"+ String.valueOf(input);
         int len=str.length();
         str=str.substring(len-max,len);
-        String[] s=time.split("-",5);
+        if (time==null| time ==""){time="2000-01-01-01-01";}
+        String[] s=time.split("[^0-9]",5);
         s[part]=str;
         time=s[0]+"-"+s[1]+"-"+s[2]+"-"+s[3]+"-"+s[4];
     }
+
+    public void setEventName(@NonNull String eventName) { this.eventName = eventName; }
     public void setYear(int year){setTime(year,0,4);}
     public void setMonth(int month){setTime(month,1,2);}
     public void setDay(int day){setTime(day,2,2);}
     public void setHour(int hour){setTime(hour,3,2);}
     public void setMinute(int minute){setTime(minute,4,2);}
+    public void setOwnerCalendarUid(String ownerCalendarUid){ this.ownerCalendar=ownerCalendarUid; }
+    public void setIsShared(Boolean isShared) {this.isShared=isShared;}
     public void setOwnerCalendar( Calendar ownerCalendar) {
         this.ownerCalendar = ownerCalendar.uid;
         this.isShared=ownerCalendar.isShared;

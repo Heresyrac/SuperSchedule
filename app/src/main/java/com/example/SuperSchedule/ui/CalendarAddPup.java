@@ -61,7 +61,7 @@ public class CalendarAddPup extends BottomPopupView {
                     (view, year, month, dayOfMonth) -> {
                         String mothStr = (month + 1) > 9 ? (month + 1) + "" : "0" + (month + 1);
                         String dayStr = dayOfMonth > 9 ? dayOfMonth + "" : "0" + dayOfMonth;
-                        String data = year + "年" + mothStr + "月" + dayStr + "日";
+                        String data = year + "-" + mothStr + "-" + dayStr + "";
                         date.setText(data);
                     }, mYear, mMonth, mDay).show();
         });

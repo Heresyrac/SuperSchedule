@@ -39,7 +39,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.calender.CalenderActivity"
+        <activity android:name=".CalenderActivity"
             android:label="日程表"/>
     </application>
 

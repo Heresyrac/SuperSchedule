@@ -19,8 +19,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class RealtimeDatabase {
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference rootRef = database.getReference();
+    static FirebaseDatabase database;
+    static DatabaseReference rootRef;
     EventDAO eventDao;
     CalendarDAO calendarDao;
     CalendarMemberDAO calendarMemberDao;
@@ -31,8 +31,8 @@ public class RealtimeDatabase {
             Executors.newFixedThreadPool(NUMBER_OF_THREADS);
     //private Object holdedShareContent = null;
     private RealtimeDatabase() {
-        database.setPersistenceEnabled(true);
-        database.getReference("scores").keepSynced(true);
+
+        //database.getReference("scores").keepSynced(true);
         eventDao=new EventAccessor(rootRef);
         calendarDao=new CalendarAccessor(rootRef);
         calendarMemberDao=new CalendarMemberAccessor(rootRef);
@@ -44,7 +44,12 @@ public class RealtimeDatabase {
         synchronized (obj) {
             if (uniqueInstance == null) {
                 synchronized (obj) {
+                    database = FirebaseDatabase
+                            .getInstance("https://assignment-calendar-98dde-default-rtdb.asia-southeast1.firebasedatabase.app/");
+                    //database.setPersistenceEnabled(true);
+                    rootRef = database.getReference("Remote");
                     uniqueInstance = new RealtimeDatabase();
+
                 }
             }
         }
