@@ -1,6 +1,7 @@
 package com.example.SuperSchedule.repository;
 
 import android.app.Application;
+import android.content.Context;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
@@ -31,9 +32,9 @@ public class CalendarRepository {
     RealtimeDatabase dbRemote;
     MainDatabase dbLocal;
     //private LiveData<List<Customer>> allCustomers;
-    public CalendarRepository(Application application){
+    public CalendarRepository(Context context){
         dbRemote = RealtimeDatabase.getInstance();
-        dbLocal = MainDatabase.getInstance(application);
+        dbLocal = MainDatabase.getInstance(context);
         calendarDAORemote =dbRemote.calendarDao();
         calendarDAOLocal =dbLocal.calendarDao();
         calendarMemberDAORemote=dbRemote.calendarMemberDao();

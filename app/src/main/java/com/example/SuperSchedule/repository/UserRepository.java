@@ -1,6 +1,7 @@
 package com.example.SuperSchedule.repository;
 
 import android.app.Application;
+import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -27,9 +28,9 @@ public class UserRepository {
     private MainDatabase dbLocal;
     //private UserDAO userDAOLocal;
     //private LiveData<List<Customer>> allCustomers;
-    public UserRepository(Application application){
+    public UserRepository(Context context){
         dbRemote = RealtimeDatabase.getInstance();
-        dbLocal = MainDatabase.getInstance(application);
+        dbLocal = MainDatabase.getInstance(context);
         userDAORemote=dbRemote.userDao();
         //userDAORemote=dbLocal.userDAO();
     }

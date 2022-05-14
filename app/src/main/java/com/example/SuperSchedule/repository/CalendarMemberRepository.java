@@ -1,6 +1,7 @@
 package com.example.SuperSchedule.repository;
 
 import android.app.Application;
+import android.content.Context;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
@@ -21,9 +22,9 @@ public class CalendarMemberRepository {
     private CalendarMemberDAO calendarMemberDAORemote;
     private CalendarMemberDAO calendarMemberDAOLocal;
     //private LiveData<List<Customer>> allCustomers;
-    public CalendarMemberRepository(Application application){
+    public CalendarMemberRepository(Context context){
         dbRemote = dbRemote.getInstance();
-        dbLocal = MainDatabase.getInstance(application);
+        dbLocal = MainDatabase.getInstance(context);
 
         calendarMemberDAORemote=dbRemote.calendarMemberDao();
         calendarMemberDAORemote=dbLocal.calendarMemberDao();

@@ -1,6 +1,7 @@
 package com.example.SuperSchedule.repository;
 
 import android.app.Application;
+import android.content.Context;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
@@ -21,9 +22,9 @@ public class EventRepository {
     RealtimeDatabase dbRemote;
     MainDatabase dbLocal;
     //private LiveData<List<Customer>> allCustomers;
-    public EventRepository(Application application){
+    public EventRepository(Context context){
         dbRemote = RealtimeDatabase.getInstance();
-        dbLocal = MainDatabase.getInstance(application);
+        dbLocal = MainDatabase.getInstance(context);
         eventDAORemote =dbRemote.eventDao();
         eventDAOLocal =dbLocal.eventDao();
         //allCustomers= customerDao.getAll();

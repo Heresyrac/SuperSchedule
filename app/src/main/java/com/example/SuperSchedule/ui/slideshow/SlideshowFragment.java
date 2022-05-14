@@ -13,8 +13,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.SuperSchedule.R;
-import com.example.SuperSchedule.calender.CalenderBean;
-import com.example.SuperSchedule.calender.CalenderDaoUtil;
+import com.example.SuperSchedule.utils.calender.CalenderBean;
+import com.example.SuperSchedule.utils.calender.CalenderDaoUtil;
 import com.example.SuperSchedule.databinding.FragmentSlideshowBinding;
 import com.example.SuperSchedule.ui.CalendarAddPup;
 import com.example.SuperSchedule.CalenderActivity;
@@ -68,7 +68,7 @@ public class SlideshowFragment extends Fragment {
         binding.miui9Calendar.setOnCalendarChangedListener(new OnCalendarChangedListener() {
             @Override
             public void onCalendarChange(BaseCalendar baseCalendar, int year, int month, LocalDate localDate, DateChangeBehavior dateChangeBehavior) {
-                date = localDate.toString("yyyy年MM月dd日");
+                date = localDate.toString("yyyy-MM-dd");
                 model.getCalenderList().setValue(CalenderDaoUtil.getCalenderByDay(date));
             }
         });

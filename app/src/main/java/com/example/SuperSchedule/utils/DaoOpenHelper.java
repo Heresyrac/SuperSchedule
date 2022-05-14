@@ -3,8 +3,8 @@ package com.example.SuperSchedule.utils;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.example.SuperSchedule.calender.CalenderBeanDao;
-import com.example.SuperSchedule.calender.DaoMaster;
+import com.example.SuperSchedule.utils.calender.CalenderBeanDao;
+import com.example.SuperSchedule.utils.calender.DaoMaster;
 
 import org.greenrobot.greendao.database.Database;
 
