@@ -34,7 +34,14 @@
     <string name="menu_report">Report</string>
     <string name="menu_calendar">Calendar</string>
     <string name="menu_signup">Sign Up</string>
+    <string name="menu_dashboard">Dashboard</string>
     <string name="menu_login">Login</string>
+
+    <string name="Choose_schedule">Choose a schedule</string>
+    <string-array name="spinner1">
+        <item>Schedule 1</item>
+        <item>Schedule 2</item>
+    </string-array>
 
     <string name="signup_wrongpassword">Incorrect format</string>
 </resources>

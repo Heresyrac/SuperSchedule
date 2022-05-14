@@ -31,4 +31,25 @@
         android:id="@+id/homeActivity"
         android:name="com.example.SuperSchedule.HomeActivity"
         android:label="HomeActivity" />
+    <activity
+        android:id="@+id/calenderActivity"
+        android:name="com.example.SuperSchedule.CalenderActivity"
+        android:label="CalenderActivity" />
+    <activity
+        android:id="@+id/groupScreen"
+        android:name="com.example.SuperSchedule.GroupScreen"
+        android:label="GroupScreen" />
+    <activity
+        android:id="@+id/dashboardActivity"
+        android:name="com.example.SuperSchedule.DashboardActivity"
+        android:label="DashboardActivity" />
+    <activity
+        android:id="@+id/loginActivity"
+        android:name="com.example.SuperSchedule.LoginActivity"
+        android:label="activity_login"
+        tools:layout="@layout/activity_login" />
+    <activity
+        android:id="@+id/signUpActivity"
+        android:name="com.example.SuperSchedule.SignUpActivity"
+        android:label="SignUpActivity" />
 </navigation>

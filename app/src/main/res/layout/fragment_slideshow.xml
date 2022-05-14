@@ -18,6 +18,8 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
+
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
@@ -25,6 +27,13 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
     </com.necer.calendar.Miui9Calendar>
 
+    <Spinner
+        android:id="@+id/spinner1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:spinnerMode="dialog"
+        android:entries="@array/spinner1"
+        android:prompt="@string/Choose_schedule" />
 
     <Button
         android:id="@+id/calenderAdd"

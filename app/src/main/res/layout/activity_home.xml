@@ -8,16 +8,14 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/TB"
-        android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        android:background="@color/colorPrimary"
-        app:title="Sign Up"
-        app:titleTextColor="@color/black"
-        app:titleMarginStart="40dp"
-        app:navigationIcon="@drawable/shape_item_calender"
-        />
+<!--    <com.google.android.material.navigation.NavigationView-->
+<!--        android:id="@+id/navigationView"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="match_parent"-->
+<!--        app:menu="@menu/activity_main_drawer"-->
+<!--        app:headerLayout="@layout/nav_header_main">-->
+
+<!--    </com.google.android.material.navigation.NavigationView>-->
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/id_textField"
