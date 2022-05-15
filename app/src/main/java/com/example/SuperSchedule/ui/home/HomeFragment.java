@@ -169,10 +169,10 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         client.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
             @Override
             public void onSuccess(Location location) {
-                LatLng Position1 = new LatLng(location.getLatitude(), location.getLongitude());
+                //LatLng Position1 = new LatLng(location.getLatitude(), location.getLongitude());
                 LatLng curPosition = new LatLng(31.270494, 120.753447);
                 googleMap.addMarker(new MarkerOptions().position(curPosition).title("Suzhou Wencui Apartment "));
-                googleMap.addMarker(new MarkerOptions().position(Position1).title("Current Position"));
+                //googleMap.addMarker(new MarkerOptions().position(Position1).title("Current Position"));
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(curPosition, 13));
             }
         });
