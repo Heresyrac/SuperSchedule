@@ -4,15 +4,20 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Update;
 
 import com.example.SuperSchedule.database.dao.UserDAO;
+import com.example.SuperSchedule.entity.CalendarMember;
+import com.example.SuperSchedule.entity.Event;
 import com.example.SuperSchedule.entity.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.Query;
 
 import java.util.List;
@@ -23,20 +28,28 @@ public  class UserAccessor implements UserDAO {
     DatabaseReference userRef;
     public UserAccessor(DatabaseReference rootRef){
         this.rootRef=rootRef;
-        this.userRef =rootRef.child("events");
+        this.userRef =rootRef.child("users");
     }
 
     public LiveData<List<User>> getAll(){
 
         Query accessQuery=userRef.orderByChild("name");
-        return new FirebaseQueryLiveData<>(accessQuery);
+        return Transformations.switchMap(new FirebaseQueryLiveData(accessQuery), (data) ->{
+            GenericTypeIndicator<List<User>> t = new GenericTypeIndicator<List<User>>() {};
+            MutableLiveData<List<User>> r=new MutableLiveData<>();
+            r.setValue(data.getValue(t));
+            return r;
+        });
 
     };
 
     public LiveData<User> findByID(String userUid){
         Query accessQuery=userRef.child(userUid);
-        return new FirebaseQueryLiveData<>(accessQuery);
-
+        return Transformations.switchMap(new FirebaseQueryLiveData(accessQuery), (data) ->{
+            MutableLiveData<User> r=new MutableLiveData<>();
+            r.setValue(data.getValue(User.class));
+            return r;
+        });
     }
 
     public void insert(User user){
@@ -55,6 +68,7 @@ public  class UserAccessor implements UserDAO {
                 }
             }
         });
+
 
     }
 

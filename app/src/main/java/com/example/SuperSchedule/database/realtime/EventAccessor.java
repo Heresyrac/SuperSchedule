@@ -4,15 +4,19 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Update;
 
 import com.example.SuperSchedule.database.dao.EventDAO;
+import com.example.SuperSchedule.entity.Calendar;
 import com.example.SuperSchedule.entity.Event;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.Query;
 
 import java.util.HashMap;
@@ -30,18 +34,32 @@ public class EventAccessor implements EventDAO {
 
     public LiveData<Event> getByEventUid(String calendarUid,String eventUid){
         Query accessQuery=eventRef.child(calendarUid).child(eventUid);
-        return new FirebaseQueryLiveData<>(accessQuery);
+        return Transformations.switchMap(new FirebaseQueryLiveData(accessQuery), (data) ->{
+            MutableLiveData<Event> r=new MutableLiveData<>();
+            r.setValue(data.getValue(Event.class));
+            return r;
+        });
     };
     public LiveData<List<Event>> getByCalendarUid(String calendarUid){
         Query accessQuery=eventRef.child("calendarUid").orderByChild("time");
-        return new FirebaseQueryLiveData<>(accessQuery);
+        return Transformations.switchMap(new FirebaseQueryLiveData(accessQuery), (data) ->{
+            GenericTypeIndicator<List<Event>> t = new GenericTypeIndicator<List<Event>>() {};
+            MutableLiveData<List<Event>> r=new MutableLiveData<>();
+            r.setValue(data.getValue(t));
+            return r;
+        });
     };
     public LiveData<List<Event>> getBetweenTime(String calendarUid,String time1,String time2){
         Query accessQuery=eventRef.child("calendarUid")
                 .orderByChild("time")
                 .startAt(time1)
                 .endAt(time2);
-        return new FirebaseQueryLiveData<>(accessQuery);
+        return Transformations.switchMap(new FirebaseQueryLiveData(accessQuery), (data) ->{
+            GenericTypeIndicator<List<Event>> t = new GenericTypeIndicator<List<Event>>() {};
+            MutableLiveData<List<Event>> r=new MutableLiveData<>();
+            r.setValue(data.getValue(t));
+            return r;
+        });
     };
     //time->"2022-10-10-23-59"
     public void insert(Event event) {

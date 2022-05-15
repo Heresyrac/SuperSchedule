@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
@@ -21,7 +22,7 @@ public interface CalendarMemberDAO {
     @Query("SELECT * FROM calendarmember WHERE " +
             "user_uid= :userUid AND calendar_uid= :calendarUid LIMIT 1")
     LiveData<CalendarMember> getByUserCalendar( String userUid,String calendarUid);
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(CalendarMember calendarMember);
     @Delete
     void delete(CalendarMember calendarMember);

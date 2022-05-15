@@ -31,6 +31,7 @@ public class CalenderViewModel extends AndroidViewModel {
     private final CalendarRepository calendarRepository;
     private final CalendarMemberRepository calendarMemberRepository;
     private final EventRepository eventRepository;
+    private final UserRepository userRepository;
 
     private final LiveData<User> curUser;//当前登录的用户
     private final LiveData<List<CalendarMember>> calendarMemberList;//与当前用户相关的，成员表
@@ -65,7 +66,7 @@ public class CalenderViewModel extends AndroidViewModel {
         calendarRepository=new CalendarRepository(application);
         eventRepository=new EventRepository(application);
         calendarMemberRepository=new CalendarMemberRepository(application);
-        UserRepository userRepository = new UserRepository(application);
+        userRepository = new UserRepository(application);
 
         curUser= userRepository.getCurrentUser();
 

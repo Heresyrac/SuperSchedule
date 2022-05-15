@@ -4,14 +4,18 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 
 import com.example.SuperSchedule.database.dao.CalendarDAO;
 import com.example.SuperSchedule.entity.Calendar;
+import com.example.SuperSchedule.entity.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.Query;
 
 import java.util.HashMap;
@@ -28,15 +32,29 @@ public class CalendarAccessor  implements CalendarDAO {
     }
     public LiveData<List<Calendar>> getAll(){
         Query accessQuery=calendarRef;
-        return new FirebaseQueryLiveData<>(accessQuery);
+        return Transformations.switchMap(new FirebaseQueryLiveData(accessQuery), (data) ->{
+            GenericTypeIndicator<List<Calendar>> t = new GenericTypeIndicator<List<Calendar>>() {};
+            MutableLiveData<List<Calendar>> r=new MutableLiveData<>();
+            r.setValue(data.getValue(t));
+            return r;
+        });
     }
     public LiveData<List<Calendar>> getByUserId(String userUid){
         Query accessQuery=calendarRef.orderByChild("ownerUser").equalTo(userUid);
-        return new FirebaseQueryLiveData<>(accessQuery);
+        return Transformations.switchMap(new FirebaseQueryLiveData(accessQuery), (data) ->{
+            GenericTypeIndicator<List<Calendar>> t = new GenericTypeIndicator<List<Calendar>>() {};
+            MutableLiveData<List<Calendar>> r=new MutableLiveData<>();
+            r.setValue(data.getValue(t));
+            return r;
+        });
     }
     public LiveData<Calendar> getByCalendarUid(String calendarUid){
         Query accessQuery=calendarRef.orderByChild("uid").equalTo(calendarUid);
-        return new FirebaseQueryLiveData<>(accessQuery);
+        return Transformations.switchMap(new FirebaseQueryLiveData(accessQuery), (data) ->{
+            MutableLiveData<Calendar> r=new MutableLiveData<>();
+            r.setValue(data.getValue(Calendar.class));
+            return r;
+        });
     }
     public void insert(Calendar calendar){
         String key =calendarRef.push().getKey();
