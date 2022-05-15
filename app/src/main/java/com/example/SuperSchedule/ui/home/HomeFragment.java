@@ -27,6 +27,7 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.UiSettings;
@@ -168,9 +169,10 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         client.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
             @Override
             public void onSuccess(Location location) {
-                //LatLng curPosition = new LatLng(location.getLatitude(), location.getLongitude());
-                LatLng curPosition = new LatLng(31, 120);
-                googleMap.addMarker(new MarkerOptions().position(curPosition).title("current position"));
+                LatLng Position1 = new LatLng(location.getLatitude(), location.getLongitude());
+                LatLng curPosition = new LatLng(31.270494, 120.753447);
+                googleMap.addMarker(new MarkerOptions().position(curPosition).title("Suzhou Wencui Apartment "));
+                googleMap.addMarker(new MarkerOptions().position(Position1).title("Current Position"));
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(curPosition, 13));
             }
         });

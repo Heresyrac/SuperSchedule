@@ -36,6 +36,7 @@
     <string name="menu_signup">Sign Up</string>
     <string name="menu_dashboard">Dashboard</string>
     <string name="menu_login">Login</string>
+    <string name="menu_group">Group Screen</string>
 
     <string name="Choose_schedule">Choose a schedule</string>
     <string-array name="spinner1">

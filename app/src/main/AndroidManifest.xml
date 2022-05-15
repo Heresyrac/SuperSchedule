@@ -43,18 +43,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<!--        <service-->
-<!--            android:name=".MainActivity"-->
-<!--            android:foregroundServiceType="location">-->
-<!--        </service>-->
         <activity android:name="com.example.SuperSchedule.LoginActivity"
             android:exported="true">
-        <!--            android:theme="@style/AppTheme.NoActionBar"-->
         </activity>
         <activity android:name="com.example.SuperSchedule.HomeActivity"
-
             android:exported="true">
-        <!--      android:theme="@style/AppTheme.NoActionBar"      -->
         </activity>
         <activity android:name=".CalenderActivity"
             android:label="日程表"/>

@@ -17,13 +17,13 @@
             android:icon="@drawable/ic_menu_camera"
             android:title="@string/menu_map" />
         <item
-            android:id="@+id/homeActivity"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="@string/menu_signup" />
-        <item
             android:id="@+id/dashboardActivity"
             android:icon="@drawable/ic_menu_gallery"
             android:title="@string/menu_dashboard" />
+        <item
+            android:id="@+id/homeActivity"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/menu_signup" />
         <item
             android:id="@+id/loginActivity"
             android:icon="@drawable/ic_menu_gallery"

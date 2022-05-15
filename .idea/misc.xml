@@ -21,8 +21,9 @@
         <entry key="..\:/Git Project/SuperSchedule/app/src/main/res/layout/fragment1_layout.xml" value="0.1634963768115942" />
         <entry key="..\:/Git Project/SuperSchedule/app/src/main/res/layout/fragment2_layout.xml" value="0.1634963768115942" />
         <entry key="..\:/Git Project/SuperSchedule/app/src/main/res/layout/fragment_gallery.xml" value="0.14114583333333333" />
-        <entry key="..\:/Git Project/SuperSchedule/app/src/main/res/layout/fragment_home.xml" value="0.14114583333333333" />
+        <entry key="..\:/Git Project/SuperSchedule/app/src/main/res/layout/fragment_home.xml" value="0.335" />
         <entry key="..\:/Git Project/SuperSchedule/app/src/main/res/layout/fragment_slideshow.xml" value="0.25" />
+        <entry key="..\:/Git Project/SuperSchedule/app/src/main/res/layout/groupscreen.xml" value="0.2259963768115942" />
         <entry key="..\:/Git Project/SuperSchedule/app/src/main/res/layout/home_fragment.xml" value="0.14114583333333333" />
         <entry key="..\:/Git Project/SuperSchedule/app/src/main/res/layout/item_calender.xml" value="0.14114583333333333" />
         <entry key="..\:/Git Project/SuperSchedule/app/src/main/res/layout/nav_header_main.xml" value="0.14114583333333333" />
@@ -36,11 +37,6 @@
         <entry key="..\:/Github/Android/SuperSchedule/app/src/main/res/layout/activity_firebase_ui.xml" value="0.17806484295845998" />
         <entry key="..\:/Github/Android/SuperSchedule/app/src/main/res/layout/activity_login.xml" value="0.14945652173913043" />
         <entry key="..\:/Github/Android/SuperSchedule/app/src/main/res/layout/activity_main.xml" value="0.17806484295845998" />
-        <entry key="..\:/Github/Android/SuperSchedule/app/src/main/res/layout/eventeditorscreen.xml" value="0.1" />
-        <entry key="..\:/Github/Android/SuperSchedule/app/src/main/res/layout/fragment1_layout.xml" value="0.1" />
-        <entry key="..\:/Github/Android/SuperSchedule/app/src/main/res/layout/fragment2_layout.xml" value="0.1" />
-        <entry key="..\:/Github/Android/SuperSchedule/app/src/main/res/layout/fragment_gallery.xml" value="0.21" />
-        <entry key="..\:/Github/Android/SuperSchedule/app/src/main/res/layout/fragment_slideshow.xml" value="0.11322188449848024" />
         <entry key="..\:/Github/Android/SuperSchedule/app/src/main/res/layout/home_fragment.xml" value="0.14945652173913043" />
       </map>
     </option>
