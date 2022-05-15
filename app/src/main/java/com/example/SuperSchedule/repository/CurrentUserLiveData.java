@@ -27,11 +27,17 @@ public class CurrentUserLiveData extends MutableLiveData<User>
         @Override
         public void onAuthStateChanged(@NonNull FirebaseAuth auth) {
             User user=new User();
-            user.setUid(auth.getCurrentUser().getUid());
-            user.setName(auth.getCurrentUser().getDisplayName());
-            user.setEmail(auth.getCurrentUser().getEmail());
-            user.setPhone(auth.getCurrentUser().getPhoneNumber());
-            setValue(user);
+            FirebaseUser user1=auth.getCurrentUser();
+            if(user1==null){
+                setValue(null);
+            }
+            else{
+                user.setUid(auth.getCurrentUser().getUid());
+                user.setName(auth.getCurrentUser().getDisplayName());
+                user.setEmail(auth.getCurrentUser().getEmail());
+                user.setPhone(auth.getCurrentUser().getPhoneNumber());
+                setValue(user);
+            }
         }
 
 

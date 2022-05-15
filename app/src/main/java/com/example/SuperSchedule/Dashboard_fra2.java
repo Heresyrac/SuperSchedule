@@ -42,7 +42,7 @@ public class Dashboard_fra2 extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        //binding.WorkManagerTest.setOnClickListener(v -> setBackupWork());
+        binding.WorkManagerTest.setOnClickListener(v -> setBackupWork());
 
     }
     @RequiresApi(api = Build.VERSION_CODES.M)

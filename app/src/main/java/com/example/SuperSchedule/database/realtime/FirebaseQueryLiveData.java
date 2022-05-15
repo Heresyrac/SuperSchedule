@@ -16,7 +16,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
-public class FirebaseQueryLiveData<T> extends MutableLiveData<T> {
+public class FirebaseQueryLiveData extends MutableLiveData<DataSnapshot> {
     private static final String LOG_TAG = "FirebaseQueryLiveData";
 
     public final Query query;
@@ -34,10 +34,10 @@ public class FirebaseQueryLiveData<T> extends MutableLiveData<T> {
         this.listener=listener;
     }
 
-    public FirebaseQueryLiveData(DatabaseReference ref,ValueEventListener listener) {
-        this.query = ref;
-        this.listener=listener;
-    }
+    /*public FirebaseQueryLiveData(Query query,Boolean isItem) {
+        this.query = query;
+        this.listener=new itemValueEventListener();
+    }*/
 
     private boolean listenerRemovePending = false;
     private final Handler handler = new Handler();
@@ -71,8 +71,9 @@ public class FirebaseQueryLiveData<T> extends MutableLiveData<T> {
     public class ListValueEventListener implements ValueEventListener {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
-            GenericTypeIndicator<T> t = new GenericTypeIndicator<T>() {};
-            setValue(dataSnapshot.getValue(t));
+            //GenericTypeIndicator<T> t = new GenericTypeIndicator<T>() {};
+            setValue(dataSnapshot);
+
         }
 
         @Override
@@ -80,9 +81,12 @@ public class FirebaseQueryLiveData<T> extends MutableLiveData<T> {
             Log.e(LOG_TAG, "Can't listen to query " + query, databaseError.toException());
         }
     }
-    public class allMemberValueEventListener implements ValueEventListener {
+    /*public class itemValueEventListener implements ValueEventListener {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
+            T r=dataSnapshot.getValue((Class<T>)((ParameterizedType)getClass()
+                    .getGenericSuperclass())
+                    .getActualTypeArguments()[0]);
             setValue(dataSnapshot.getValue((Class<T>)((ParameterizedType)getClass()
                     .getGenericSuperclass())
                     .getActualTypeArguments()[0]));
@@ -92,6 +96,6 @@ public class FirebaseQueryLiveData<T> extends MutableLiveData<T> {
         public void onCancelled(DatabaseError databaseError) {
             Log.e(LOG_TAG, "Can't listen to query " + query, databaseError.toException());
         }
-    }
+    }*/
 
 }

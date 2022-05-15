@@ -70,6 +70,9 @@ public class CalendarRepository {
                 }
                 else{
                     calendarDAOLocal.insert(calendar);
+                    CalendarMember newMembership= new
+                            CalendarMember(calendar.uid,calendar.ownerUser,3);
+                    calendarMemberDAOLocal.insert(newMembership);
                 }
 
             }
@@ -112,13 +115,13 @@ public class CalendarRepository {
                     calendarDAORemote.update(calendar);
                     CalendarMember newMembership= new
                             CalendarMember(calendar.uid,calendar.ownerUser,2);
-                    calendarMemberDAORemote.insert(newMembership);
+                    calendarMemberDAORemote.update(newMembership);
                 }
                 else{
                     calendarDAOLocal.update(calendar);
                     CalendarMember newMembership= new
                             CalendarMember(calendar.uid,calendar.ownerUser,3);
-                    calendarMemberDAORemote.insert(newMembership);
+                    calendarMemberDAOLocal.update(newMembership);//
                 }
             }
         });

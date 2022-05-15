@@ -2,6 +2,7 @@ package com.example.SuperSchedule;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.ContentResolver;
 import android.content.DialogInterface;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.SuperSchedule.entity.User;
+import com.example.SuperSchedule.viewmodel.UserViewModel;
 
 import java.io.FileNotFoundException;
 import java.util.regex.Matcher;
@@ -26,6 +28,7 @@ import java.util.regex.Pattern;
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
 
     private LoginActivity loginactivity = new LoginActivity();
+    private UserViewModel userViewModel;
     private EditText signup_username;
     private EditText signup_phone;
     private EditText signup_email;
@@ -38,6 +41,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup_screen);
+        userViewModel =
+                ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication())
+                        .create(UserViewModel.class);
         Button signup_return = (Button) findViewById(R.id.signup_return);
         Button signup_enroll = (Button) findViewById(R.id.signup_enroll);
         signup_photo = (ImageButton) findViewById(R.id.signup_photo);
@@ -55,7 +61,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.signup_return:
-                Intent unsignup_intent = new Intent(this, DashboardActivity.class);
+                Intent unsignup_intent = new Intent(this, LoginActivity.class);
                 startActivity(unsignup_intent);
                 break;
             case R.id.signup_enroll:
@@ -66,24 +72,29 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 String confirm = signup_confirm.getText().toString();
                 int type = check(userinfo.password, confirm, userinfo.email,userinfo.phone,userinfo.name);
                 switch (type) {
+                    case -5:
+                        Toast.makeText(this,"Password must contains 6 more characters!",Toast.LENGTH_SHORT).show();
+                        break;
                     case -4:
-                        Toast.makeText(this,"input username",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this,"Please input username",Toast.LENGTH_SHORT).show();
                         break;
                     case -3:
-                        Toast.makeText(this,"wrong phone format",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this,"Wrong phone format",Toast.LENGTH_SHORT).show();
                         break;
                     case -2:
-                        Toast.makeText(this,"wrong email format",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this,"Wrong email format",Toast.LENGTH_SHORT).show();
                         break;
                     case -1:
-                        Toast.makeText(this,"wrong passwd format",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this,"Wrong passwd format",Toast.LENGTH_SHORT).show();
                         break;
                     case 0:
-                        Intent signup_intent = new Intent(this, DashboardActivity.class);
+                        User user=new User("Password must both contains numbers and letters!",userinfo.name,userinfo.password,userinfo.email,userinfo.phone);
+                        userViewModel.signUpUserwithEmail(user);
+                        Intent signup_intent = new Intent(this, LoginActivity.class);
                         startActivity(signup_intent);
                         break;
                     case 1:
-                        Toast.makeText(this,"wrong confirm",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this,"Confirm does not match the Password!",Toast.LENGTH_SHORT).show();
                         break;
                 }
                 break;
@@ -105,7 +116,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             return -2;
         int num = 0, charnum = 0, dif = 0;
         if (passwd.length() <= 6)
-            return -1;
+            return -5;
         for (int i = 0; i < passwd.length(); i++) {
             if (passwd.charAt(i) <= '9' && passwd.charAt(i) >= '0')
                 num += 1;
@@ -157,6 +168,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private boolean isphone(String phone){
+        if(phone.length()==0)return true;
+
         if(phone.length() != 11)
             return false;
         for(int i = 0; i < phone.length(); i++)
