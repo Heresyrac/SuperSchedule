@@ -30,7 +30,7 @@
                 android:layout_width="90dp"
                 android:layout_height="40dp"
                 android:background="@drawable/shape_item_calender"
-                android:text="search"
+                android:text="Record"
                 android:textColor="@color/N_white" />
         </LinearLayout>
 

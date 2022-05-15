@@ -5,7 +5,8 @@
     android:orientation="vertical">
 
     <Spinner
-        android:layout_width="wrap_content"
+        android:id="@+id/group_spinner"
+        android:layout_width="match_parent"
         android:layout_height="50dp"/>
 
     <View
@@ -16,7 +17,11 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="30dp"/>
+        android:layout_height="30dp"
+        android:text="Owner"
+        android:textSize="20dp"
+        android:gravity="center"
+        />
 
     <View
         android:layout_width="match_parent"
@@ -24,48 +29,112 @@
         android:background="@color/black"
         />
 
-    <Button
-        android:id="@+id/group_invitation"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/shape_add_bg"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="120dp"
-        android:layout_marginRight="120dp"
-        android:text="Invitation"
-        android:textSize="16sp" />
+        android:orientation="vertical"
+        >
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Member List"
+            android:textSize="20dp"
+            />
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/black"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:text="member1                "
+                android:textSize="20dp"/>
 
-            <Spinner
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <Button
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Remove"
+                android:text="Owner"
+                android:textSize="20dp"
+                android:layout_marginRight="20dp"
                 />
 
-        </androidx.cardview.widget.CardView>
+        </LinearLayout>
 
-    </androidx.recyclerview.widget.RecyclerView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="member2                "
+                android:textSize="20dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Editor"
+                android:textSize="20dp"
+                android:layout_marginRight="20dp"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="member3                "
+                android:textSize="20dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Viewer"
+                android:textSize="20dp"
+                android:layout_marginRight="20dp"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@color/black"/>
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="200dp">
+
+        <Button
+            android:id="@+id/group_invitation"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_add_bg"
+            android:layout_marginTop="15dp"
+            android:layout_margin="15dp"
+            android:text="Invitation"
+            android:textSize="16sp" />
 
         <Button
             android:id="@+id/group_return"
@@ -77,15 +146,6 @@
             android:layout_margin="15dp"
             android:textSize="16sp" />
 
-        <Button
-            android:id="@+id/group_enter"
-            android:layout_width="0dp"
-            android:layout_height="45dp"
-            android:layout_weight="1"
-            android:background="@drawable/shape_add_bg"
-            android:text="Enter"
-            android:layout_marginRight="15dp"
-            android:textSize="16sp" />
     </LinearLayout>
 
     <LinearLayout

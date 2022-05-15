@@ -20,17 +20,10 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle("Calendar");
         }
 
         Button dashboard_schedule = findViewById(R.id.schedule);
-        Button dashboard_location = findViewById(R.id.location);
-        dashboard_location.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(DashboardActivity.this, com.example.SuperSchedule.MainActivity.class);
-                startActivity(intent);
-            }
-        });
         dashboard_schedule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -55,9 +48,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
             case R.id.schedule:
 
                 //to 4
-                break;
-            case R.id.location:
-                //to 5
                 break;
         }
     }
