@@ -4,7 +4,7 @@ import android.database.Cursor;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.example.SuperSchedule.calender.DaoMaster;
+import com.example.SuperSchedule.utils.calender.DaoMaster;
 
 import org.greenrobot.greendao.AbstractDao;
 import org.greenrobot.greendao.database.Database;

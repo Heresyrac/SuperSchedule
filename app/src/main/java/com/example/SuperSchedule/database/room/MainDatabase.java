@@ -9,6 +9,7 @@ import androidx.room.RoomDatabase;
 import com.example.SuperSchedule.database.dao.CalendarDAO;
 import com.example.SuperSchedule.database.dao.CalendarMemberDAO;
 import com.example.SuperSchedule.database.dao.EventDAO;
+import com.example.SuperSchedule.database.dao.RoomBackupDAO;
 import com.example.SuperSchedule.database.dao.UserDAO;
 import com.example.SuperSchedule.entity.Calendar;
 import com.example.SuperSchedule.entity.CalendarMember;
@@ -29,13 +30,13 @@ public abstract class MainDatabase extends RoomDatabase {
     public abstract EventDAO eventDao();
     public abstract UserDAO userDao();
     public abstract CalendarMemberDAO calendarMemberDao();
+    public abstract RoomBackupDAO roomBackupDao();
     private static MainDatabase INSTANCE;
 
     private static final int NUMBER_OF_THREADS = 4;
     public static final ExecutorService databaseWriteExecutor =
             Executors.newFixedThreadPool(NUMBER_OF_THREADS);
-    public static synchronized MainDatabase getInstance(final Context
-                                                                    context) {
+    public static synchronized MainDatabase getInstance(final Context context) {
         if (INSTANCE == null) {
             INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                     MainDatabase.class, "MainDatabase")

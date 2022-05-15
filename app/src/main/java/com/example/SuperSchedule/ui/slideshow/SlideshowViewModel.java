@@ -3,7 +3,7 @@ package com.example.SuperSchedule.ui.slideshow;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.SuperSchedule.calender.CalenderBean;
+import com.example.SuperSchedule.utils.calender.CalenderBean;
 
 import java.util.List;
 

@@ -3,8 +3,8 @@ package com.example.SuperSchedule;
 import android.app.Application;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.example.SuperSchedule.calender.DaoMaster;
-import com.example.SuperSchedule.calender.DaoSession;
+import com.example.SuperSchedule.utils.calender.DaoMaster;
+import com.example.SuperSchedule.utils.calender.DaoSession;
 import com.example.SuperSchedule.utils.DaoOpenHelper;
 
 public class BaseApplication extends Application {

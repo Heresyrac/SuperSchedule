@@ -8,6 +8,8 @@ import com.example.SuperSchedule.database.dao.CalendarDAO;
 import com.example.SuperSchedule.database.dao.CalendarMemberDAO;
 import com.example.SuperSchedule.database.dao.CustomerDAO;
 import com.example.SuperSchedule.database.dao.EventDAO;
+import com.example.SuperSchedule.database.dao.RealtimeBackupDAO;
+import com.example.SuperSchedule.database.dao.RoomBackupDAO;
 import com.example.SuperSchedule.database.dao.UserDAO;
 import com.example.SuperSchedule.database.room.CustomerDatabase;
 import com.example.SuperSchedule.entity.Calendar;
@@ -25,6 +27,8 @@ public class RealtimeDatabase {
     CalendarDAO calendarDao;
     CalendarMemberDAO calendarMemberDao;
     UserDAO userDao;
+
+    RealtimeBackupDAO realtimeBackupDao;
     private static RealtimeDatabase uniqueInstance = null;
     private static final int NUMBER_OF_THREADS = 4;
     public static final ExecutorService databaseWriteExecutor =
@@ -37,6 +41,9 @@ public class RealtimeDatabase {
         calendarDao=new CalendarAccessor(rootRef);
         calendarMemberDao=new CalendarMemberAccessor(rootRef);
         userDao=new UserAccessor(rootRef);
+        realtimeBackupDao=new RealtimeBackupAccessor(rootRef);
+
+
     }
 
     public static RealtimeDatabase getInstance() {
@@ -63,4 +70,5 @@ public class RealtimeDatabase {
     public UserDAO userDao(){
         return userDao;
     }
+    public RealtimeBackupDAO realtimeBackupDao() { return realtimeBackupDao; }
 }

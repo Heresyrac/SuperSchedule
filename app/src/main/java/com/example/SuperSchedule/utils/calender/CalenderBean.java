@@ -1,4 +1,4 @@
-package com.example.SuperSchedule.calender;
+package com.example.SuperSchedule.utils.calender;
 
 import com.example.SuperSchedule.entity.Event;
 
