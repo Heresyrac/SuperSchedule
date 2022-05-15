@@ -33,4 +33,31 @@
             android:icon="@android:drawable/ic_menu_send"
             android:title="@string/menu_login" />
     </group>
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/subtitle"
+            android:title="Weather">
+            <menu>
+                <item
+                    android:id="@+id/test"
+                    android:icon="@android:drawable/ic_menu_compass"
+                    android:title="Suzhou"/>
+                <item
+                    android:id="@+id/test2"
+                    android:title="Wendy   23℃"/>
+            </menu>
+        </item>
+    </group>
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/subtitle2"
+            android:title="Schedule">
+            <menu>
+                <item
+                    android:id="@+id/test3"
+                    android:icon="@android:drawable/ic_lock_idle_alarm"
+                    android:title="Lunch"/>
+            </menu>
+        </item>
+    </group>
 </menu>
