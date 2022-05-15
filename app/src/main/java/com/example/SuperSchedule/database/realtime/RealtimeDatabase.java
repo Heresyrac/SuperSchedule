@@ -6,12 +6,12 @@ import androidx.room.Room;
 
 import com.example.SuperSchedule.database.dao.CalendarDAO;
 import com.example.SuperSchedule.database.dao.CalendarMemberDAO;
-import com.example.SuperSchedule.database.dao.CustomerDAO;
+
 import com.example.SuperSchedule.database.dao.EventDAO;
 import com.example.SuperSchedule.database.dao.RealtimeBackupDAO;
 import com.example.SuperSchedule.database.dao.RoomBackupDAO;
 import com.example.SuperSchedule.database.dao.UserDAO;
-import com.example.SuperSchedule.database.room.CustomerDatabase;
+
 import com.example.SuperSchedule.entity.Calendar;
 import com.example.SuperSchedule.entity.CalendarMember;
 import com.google.firebase.database.DatabaseReference;

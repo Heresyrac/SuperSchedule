@@ -10,7 +10,6 @@ import androidx.lifecycle.Observer;
 import com.example.SuperSchedule.database.dao.EventDAO;
 import com.example.SuperSchedule.database.dao.EventDAO;
 import com.example.SuperSchedule.database.realtime.RealtimeDatabase;
-import com.example.SuperSchedule.database.room.CustomerDatabase;
 import com.example.SuperSchedule.database.room.MainDatabase;
 import com.example.SuperSchedule.entity.Event;
 

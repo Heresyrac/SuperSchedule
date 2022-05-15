@@ -24,10 +24,7 @@
             android:id="@+id/groupScreen"
             android:icon="@android:drawable/ic_menu_my_calendar"
             android:title="@string/menu_group" />
-        <item
-            android:id="@+id/homeActivity"
-            android:icon="@android:drawable/ic_menu_myplaces"
-            android:title="@string/menu_signup" />
+
         <item
             android:id="@+id/loginActivity"
             android:icon="@android:drawable/ic_menu_send"
