@@ -39,6 +39,7 @@ import com.hjq.permissions.XXPermissions;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -116,6 +117,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
 
         XXPermissions.with(getContext())
+                .permission(Manifest.permission.ACCESS_COARSE_LOCATION)
                 .permission(Manifest.permission.ACCESS_FINE_LOCATION) //不指定权限则自动获取清单中的危险权限
                 .request(new OnPermissionCallback() {
                     @Override
@@ -162,11 +164,12 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
     @SuppressLint("MissingPermission")
     private void initCurPosition() {
         //获取最后一次定位到的位置。
-        FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(getActivity());
+        FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(requireActivity());
         client.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
             @Override
             public void onSuccess(Location location) {
-                LatLng curPosition = new LatLng(location.getLatitude(), location.getLongitude());
+                //LatLng curPosition = new LatLng(location.getLatitude(), location.getLongitude());
+                LatLng curPosition = new LatLng(31, 120);
                 googleMap.addMarker(new MarkerOptions().position(curPosition).title("current position"));
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(curPosition, 13));
             }
