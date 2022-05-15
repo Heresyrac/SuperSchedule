@@ -32,10 +32,11 @@
 
     <string name="menu_map">Map</string>
     <string name="menu_report">Report</string>
-    <string name="menu_calendar">Calendar</string>
+    <string name="menu_calendar">Dashboard</string>
     <string name="menu_signup">Sign Up</string>
-    <string name="menu_dashboard">Dashboard</string>
+    <string name="menu_dashboard">Calendar</string>
     <string name="menu_login">Login</string>
+    <string name="menu_group">Group</string>
 
     <string name="Choose_schedule">Choose a schedule</string>
     <string-array name="spinner1">
