@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -93,6 +94,13 @@ public class LoginActivity extends AppCompatActivity {
 
         binding.signInOut.setOnClickListener(view -> signIn_Out());
         binding.signUp.setOnClickListener(view -> signUp());
+
+        binding.MainActivityButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, com.example.SuperSchedule.MainActivity.class);
+                startActivity(intent);
+            } });
     }
 
     @Override

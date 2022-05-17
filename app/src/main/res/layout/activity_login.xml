@@ -104,13 +104,21 @@ tools:context=".LoginActivity">
 
             <Button
                 android:id="@+id/delete_account"
-                android:layout_width="wrap_content"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="16dp"
                 android:text="@string/delete_account_label"
 
                 tools:ignore="ButtonStyle" />
+
+            <Button
+                android:id="@+id/MainActivityButton"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="16dp"
+                android:text="Home" />
 
         </LinearLayout>
 
