@@ -11,6 +11,9 @@ public class BaseApplication extends Application {
 
     private static DaoSession mDaoSession;
     public static DaoSession getDaoSession(){
+        if(mDaoSession==null){
+
+        }
         return mDaoSession;
     }
 
