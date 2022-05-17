@@ -25,7 +25,7 @@ import java.io.FileNotFoundException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
+public class SignUpActivity<flag> extends AppCompatActivity implements View.OnClickListener {
 
     private LoginActivity loginactivity = new LoginActivity();
     private UserViewModel userViewModel;
@@ -36,7 +36,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private EditText signup_confirm;
     private ImageButton signup_photo;
     private User userinfo = new User();
-
+    private boolean flag;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +46,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                         .create(UserViewModel.class);
         Button signup_return = (Button) findViewById(R.id.signup_return);
         Button signup_enroll = (Button) findViewById(R.id.signup_enroll);
+        Button signup_showhide = (Button) findViewById(R.id.signup_showhide);
         signup_photo = (ImageButton) findViewById(R.id.signup_photo);
         signup_username = (EditText) findViewById(R.id.signup_username);
         signup_phone = (EditText) findViewById(R.id.signup_phone);
@@ -54,7 +55,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         signup_confirm = (EditText) findViewById(R.id.signup_confirm);
         signup_return.setOnClickListener(this);
         signup_enroll.setOnClickListener(this);
+        signup_showhide.setOnClickListener(this);
         signup_photo.setOnClickListener(this);
+        flag = false;
     }
 
     @Override
@@ -103,6 +106,16 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(intent, 1);
+                break;
+            case R.id.signup_showhide:
+                if(flag){
+                    signup_password.setInputType(0x91);
+                    flag = false;
+                }
+                else{
+                    signup_password.setInputType(0x81);
+                    flag = true;
+                }
                 break;
         }
     }
@@ -168,8 +181,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private boolean isphone(String phone){
-        if(phone.length()==0)return true;
-
+        if(phone.length() == 0)
+            return true;
         if(phone.length() != 11)
             return false;
         for(int i = 0; i < phone.length(); i++)
