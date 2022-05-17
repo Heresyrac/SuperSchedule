@@ -131,9 +131,16 @@ False->写入在本地的ROOM数据库，在特定时间通过Workmanager 存储
 Json树
 
     {
+      "backup":{
+       "users":{...},
+       "calendars":{...},
+       "events":{...},
+       "calendarmembers":{...}
+       
+      }
       "users":{
        
-       "uid1":{USER},
+       "uid1":{USER_ENTITIY},
        
        "uid2":{...},
        ...
@@ -150,24 +157,24 @@ Json树
       },
       "events":{
        
-        "eventuid1":{ EVENT }
-        "eventuid2":{ EVENT }
-        "eventuid3":{ EVENT }
+        "eventuid1":{ EVENT_ENTITIY }
+        "eventuid2":{ EVENT_ENTITIY }
+        "eventuid3":{ EVENT_ENTITIY }
       
       }
       "calendarmembers":{
        "by_user":{
        
          "user_uid1":{
-          "calendaruid1":{CALENDARMEMBER},
-          "calendaruid2":{CALENDARMEMBER},
-          "calendaruid3":{CALENDARMEMBER},
+          "calendaruid1":{CALENDARMEMBER_ENTITIY},
+          "calendaruid2":{CALENDARMEMBER_ENTITIY,
+          "calendaruid3":{CALENDARMEMBER_ENTITIY},
           ...
          },
          "user_uid2":{
-          "calendarruid1":{CALENDARMEMBER},
-          "calendaruid2":{CALENDARMEMBER},
-          "calendaruid3":{CALENDARMEMBER},
+          "calendarruid1":{CALENDARMEMBER_ENTITIY},
+          "calendaruid2":{CALENDARMEMBER_ENTITIY},
+          "calendaruid3":{CALENDARMEMBER_ENTITIY},
           ...
          },
          "user_uid3":{...},
@@ -181,15 +188,15 @@ Json树
       "by_calendar":{
          
           "calendar_uid1":{
-           "calendarmemberuid1":{CALENDARMEMBER},
-           "calendarmemberuid2":{CALENDARMEMBER},
-           "calendarmemberuid3":{CALENDARMEMBER},
+           "calendarmemberuid1":{CALENDARMEMBER_ENTITIY},
+           "calendarmemberuid2":{CALENDARMEMBER_ENTITIY},
+           "calendarmemberuid3":{CALENDARMEMBER_ENTITIY},
            ...
          },
          "calendar_uid2":{
-           "calendarmemberuid1":{CALENDARMEMBER},
-           "calendarmemberuid2":{CALENDARMEMBER},
-           "calendarmemberuid3":{CALENDARMEMBER},
+           "calendarmemberuid1":{CALENDARMEMBER_ENTITIY},
+           "calendarmemberuid2":{CALENDARMEMBER_ENTITIY},
+           "calendarmemberuid3":{CALENDARMEMBER_ENTITIY},
            ...
          },
          "calendar_uid3":{...},
